@@ -1,0 +1,233 @@
+:root {
+    --main-bg-gradient: linear-gradient(135deg, #3ecfff 0%, #ff6ec4 100%);
+    --glass-bg: rgba(255, 255, 255, 0.18);
+    --glass-bg-strong: rgba(255, 255, 255, 0.35);
+    --glass-blur: blur(18px);
+    --glass-border: 1.5px solid rgba(255, 255, 255, 0.4);
+    --glass-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.18);
+    --glass-radius: 2rem;
+    --glass-glow: 0 0 16px 2px rgba(62, 207, 255, 0.15);
+    --accent-blue: #3ecfff;
+    --accent-pink: #ff6ec4;
+    --accent-purple: #a993fe;
+    --font-main: 'Segoe UI', sans-serif;
+    --radius-sm: 10px;
+    --radius-lg: 60px;
+    --white: #fff;
+}
+
+body {
+    min-height: 100vh;
+    background: var(--main-bg-gradient);
+    background-size: cover;
+    background-attachment: fixed;
+    font-family: var(--font-main);
+    overflow-x: hidden;
+}
+
+/* Universal glass panel */
+.glass-panel,
+.glass,
+.navbar,
+.footer,
+.ebook-bar,
+.feature-card,
+.product-card,
+.form-control,
+.btn {
+    background: var(--glass-bg-strong) !important;
+    box-shadow: var(--glass-shadow), var(--glass-glow);
+    border-radius: var(--glass-radius);
+    border: var(--glass-border);
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
+    transition: box-shadow 0.2s, background 0.2s;
+}
+
+.hero-section {
+    background: var(--glass-bg-strong);
+    border-bottom-left-radius: var(--radius-lg);
+    border-bottom-right-radius: var(--radius-lg);
+    box-shadow: var(--glass-shadow), var(--glass-glow);
+}
+
+.hero-img {
+    max-width: 350px;
+    border-radius: 2rem;
+    box-shadow: var(--glass-shadow), var(--glass-glow);
+}
+
+.ebook-bar {
+    margin-top: -40px;
+    margin-bottom: 40px;
+}
+
+.ebook-bar input.form-control {
+    border-radius: var(--radius-sm);
+    border: none;
+    background: var(--glass-bg);
+    color: #222;
+}
+
+.ebook-bar .btn {
+    border-radius: var(--radius-sm);
+    font-weight: 600;
+    background: linear-gradient(90deg, var(--accent-blue), var(--accent-pink));
+    color: #fff;
+    border: none;
+    box-shadow: 0 2px 12px 0 var(--accent-blue);
+}
+
+.ebook-bar .btn:hover {
+    background: linear-gradient(90deg, var(--accent-pink), var(--accent-blue));
+    box-shadow: 0 4px 24px 0 var(--accent-pink);
+}
+
+.glass {
+    background: var(--glass-bg);
+    box-shadow: var(--glass-shadow), var(--glass-glow);
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
+    border-radius: var(--glass-radius);
+    border: var(--glass-border);
+}
+
+.feature-card,
+.product-card {
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.feature-card:hover,
+.product-card:hover {
+    transform: translateY(-8px) scale(1.03);
+    box-shadow: 0 12px 32px 0 var(--accent-blue), var(--glass-glow);
+}
+
+.bg-light-blue {
+    background: var(--glass-bg-strong);
+    border-top-left-radius: var(--radius-lg);
+    border-top-right-radius: var(--radius-lg);
+}
+
+.navbar,
+.footer {
+    background: var(--glass-bg-strong) !important;
+    box-shadow: var(--glass-shadow), var(--glass-glow);
+    border-radius: var(--glass-radius);
+    border: var(--glass-border);
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
+}
+
+.btn {
+    color: #fff;
+    background: linear-gradient(90deg, var(--accent-blue), var(--accent-pink));
+    border: none;
+    box-shadow: 0 2px 12px 0 var(--accent-blue);
+    font-weight: 600;
+    transition: background 0.2s, box-shadow 0.2s;
+}
+
+.btn:hover {
+    background: linear-gradient(90deg, var(--accent-pink), var(--accent-blue));
+    box-shadow: 0 4px 24px 0 var(--accent-pink);
+}
+
+.form-control {
+    background: var(--glass-bg);
+    color: #222;
+    border: var(--glass-border);
+    border-radius: var(--radius-sm);
+    box-shadow: var(--glass-shadow);
+}
+
+/* Admin Dashboard Styles */
+.sidebar {
+    min-width: 220px;
+    max-width: 220px;
+    min-height: 100vh;
+    transition: margin-left 0.3s;
+    background: var(--glass-bg-strong) !important;
+    box-shadow: var(--glass-shadow), var(--glass-glow);
+    border-radius: var(--glass-radius);
+    border: var(--glass-border);
+    backdrop-filter: var(--glass-blur);
+    -webkit-backdrop-filter: var(--glass-blur);
+    z-index: 1050;
+}
+
+.sidebar-collapsed {
+    margin-left: -220px;
+}
+
+.sidebar .nav-link {
+    color: #222;
+    font-weight: 500;
+    border-radius: var(--radius-sm);
+    margin-bottom: 8px;
+    transition: background 0.2s, color 0.2s;
+}
+
+.sidebar .nav-link.active,
+.sidebar .nav-link:hover {
+    background: linear-gradient(90deg, var(--accent-blue), var(--accent-pink));
+    color: #fff;
+}
+
+.main-content {
+    transition: margin-left 0.3s;
+    margin-left: 220px;
+}
+
+.main-content-collapsed {
+    margin-left: 0;
+}
+
+@media (max-width: 991px) {
+    .hero-section {
+        border-bottom-left-radius: 30px;
+        border-bottom-right-radius: 30px;
+    }
+
+    .bg-light-blue {
+        border-top-left-radius: 30px;
+        border-top-right-radius: 30px;
+    }
+
+    .ebook-bar {
+        margin-top: 0;
+    }
+
+    .sidebar {
+        margin-left: -220px;
+        position: fixed;
+        z-index: 1050;
+    }
+
+    .sidebar.show {
+        margin-left: 0;
+    }
+
+    .main-content {
+        margin-left: 0;
+    }
+}
+
+@media (max-width: 767px) {
+    .hero-img {
+        max-width: 220px;
+    }
+
+    .ebook-bar {
+        border-radius: var(--radius-sm);
+    }
+
+    .glass,
+    .glass-panel,
+    .navbar,
+    .footer,
+    .feature-card,
+    .product-card {
+        border-radius: var(--radius-sm);
+    }
+}

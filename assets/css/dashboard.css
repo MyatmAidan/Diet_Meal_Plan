@@ -1,0 +1,102 @@
+ :root {
+     --glass-bg: rgba(255, 255, 255, 0.2);
+     --glass-bg-strong: rgba(255, 255, 255, 0.3);
+     --glass-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.2);
+     --glass-glow: inset 0 1px 0 rgba(255, 255, 255, 0.3);
+     --radius-lg: 20px;
+ }
+
+ body {
+     background: linear-gradient(to bottom right, #b3e5fc, #f8bbd0);
+     font-family: 'Segoe UI', sans-serif;
+     overflow-x: hidden;
+ }
+
+ .glass-panel {
+     background: var(--glass-bg);
+     backdrop-filter: blur(12px);
+     -webkit-backdrop-filter: blur(12px);
+     border-radius: var(--radius-lg);
+     box-shadow: var(--glass-shadow);
+ }
+
+ #wrapper {
+     display: flex;
+     transition: all 0.3s ease;
+ }
+
+ #sidebar {
+     width: 250px;
+     transition: all 0.3s ease;
+     min-height: 100vh;
+     background: var(--glass-bg-strong);
+     box-shadow: var(--glass-shadow), var(--glass-glow);
+     border-right: 1.5px solid rgba(255, 255, 255, 0.4);
+ }
+
+ #mainContent {
+     transition: all 0.3s ease;
+     width: calc(100% - 250px);
+ }
+
+ #wrapper.sidebar-hidden #sidebar {
+     margin-left: -250px;
+ }
+
+ #wrapper.sidebar-hidden #mainContent {
+     margin-left: 0;
+     width: 100%;
+ }
+
+ #toggleSidebar {
+     position: absolute;
+     top: 1rem;
+     left: 1rem;
+     z-index: 2000;
+ }
+
+ .nav-link {
+     color: #333;
+     font-weight: 500;
+     border-radius: 10px;
+     margin-bottom: 10px;
+ }
+
+ .nav-link.active,
+ .nav-link:hover {
+     background: linear-gradient(90deg, #b3e5fc, #f8bbd0);
+     color: #000;
+ }
+
+ .glass-table th,
+ .glass-table td {
+     background: rgba(255, 255, 255, 0.10) !important;
+     border: 1px solid rgba(255, 255, 255, 0.18) !important;
+ }
+
+ .glass-input {
+     background: rgba(255, 255, 255, 0.25) !important;
+     border: 1px solid rgba(255, 255, 255, 0.18) !important;
+     color: #222;
+ }
+
+ @media (max-width: 991px) {
+     #sidebar {
+         position: fixed;
+         top: 0;
+         left: 0;
+         height: 100vh;
+         margin-left: -250px;
+         z-index: 1050;
+         border-radius: 0;
+     }
+
+     #wrapper.sidebar-hidden #sidebar {
+         margin-left: 0;
+     }
+
+     #mainContent {
+         margin-left: 0 !important;
+         width: 100% !important;
+     }
+ }
