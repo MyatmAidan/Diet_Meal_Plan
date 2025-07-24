@@ -1,5 +1,23 @@
-<?php require_once('../layout/header.php'); ?>
-<?php require_once('../require/db.php'); ?>
+<?php
+require_once('../require/check_auth.php');
+check_auth(1);
+require_once('../layout/header.php');
+require_once('../require/db.php');
+
+$limit = 5; // Records per page
+$page = isset($_GET['page']) ? max(1, intval($_GET['page'])) : 1;
+$offset = ($page - 1) * $limit;
+
+// Count total records
+$count_result = $mysqli->query("SELECT COUNT(*) as total FROM user_surveys");
+$total_rows = $count_result->fetch_assoc()['total'];
+$total_pages = ceil($total_rows / $limit);
+
+// Fetch paginated records
+$result = $mysqli->query("SELECT us.*, u.name AS user_name 
+FROM user_surveys us JOIN users u ON us.user_id = u.id
+ LIMIT $limit OFFSET $offset");
+?>
 <div class="container-fluid mt-4">
     <div class="row">
         <div class="col-12">
@@ -13,7 +31,7 @@
                 <table class="table table-hover table-bordered align-middle mb-0 glass-table">
                     <thead class="table-light">
                         <tr>
-                            <th>ID</th>
+                            <th>No</th>
                             <th>User</th>
                             <th>Age</th>
                             <th>Gender</th>
@@ -23,54 +41,102 @@
                             <th>Goal</th>
                             <th>BMR</th>
                             <th>Created At</th>
-                            <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <?php
-                        $sql = "SELECT us.*, u.name AS user_name FROM user_surveys us JOIN users u ON us.user_id = u.id";
-                        $result = $mysqli->query($sql);
-                        if ($result && $result->num_rows > 0) {
-                            while ($row = $result->fetch_assoc()) {
-                                echo '<tr>';
-                                echo '<td>' . htmlspecialchars($row['id']) . '</td>';
-                                echo '<td>' . htmlspecialchars($row['user_name']) . '</td>';
-                                echo '<td>' . htmlspecialchars($row['age']) . '</td>';
-                                echo '<td>' . htmlspecialchars(ucfirst($row['gender'])) . '</td>';
-                                echo '<td>' . htmlspecialchars($row['weight']) . '</td>';
-                                echo '<td>' . htmlspecialchars($row['height']) . '</td>';
-                                echo '<td>' . htmlspecialchars($row['activity_level']) . '</td>';
-                                echo '<td>' . htmlspecialchars(ucfirst($row['goal'])) . '</td>';
-                                echo '<td>' . htmlspecialchars($row['bmr']) . '</td>';
-                                echo '<td>' . htmlspecialchars($row['created_at']) . '</td>';
-                                echo '<td>';
-                                echo '<a href="user_surveys_edit.php?id=' . $row['id'] . '" class="btn btn-sm btn-primary me-2">Edit</a>';
-                                echo '<a href="user_surveys_delete.php?id=' . $row['id'] . '" class="btn btn-sm btn-danger" onclick="return confirm(\'Are you sure you want to delete this survey?\')">Delete</a>';
-                                echo '</td>';
-                                echo '</tr>';
-                            }
-                        } else {
-                            echo '<tr><td colspan="11" class="text-center">No user surveys found.</td></tr>';
-                        }
-                        ?>
+                        <?php $i = $offset + 1; ?>
+                        <?php while ($row = $result->fetch_assoc()): ?>
+                            <tr>
+                                <td><?= $i++ ?></td>
+                                <td><?= htmlspecialchars($row['user_name']) ?></td>
+                                <td><?= htmlspecialchars($row['age']) ?></td>
+                                <td><?= htmlspecialchars($row['gender']) ?></td>
+                                <td><?= htmlspecialchars($row['weight']) ?></td>
+                                <td><?= htmlspecialchars($row['height']) ?></td>
+                                <td><?= htmlspecialchars($row['activity_level']) ?></td>
+                                <td><?= htmlspecialchars($row['goal']) ?></td>
+                                <td><?= htmlspecialchars($row['bmr']) ?></td>
+                                <td><?= htmlspecialchars($row['created_at']) ?></td>
+                            </tr>
+                        <?php endwhile; ?>
                     </tbody>
                 </table>
+                <nav aria-label="Page navigation" class="mt-4 d-flex justify-content-end align-items-center">
+                    <ul class="pagination justify-content-center" style="
+        background: rgba(255, 255, 255, 0.08);
+        backdrop-filter: blur(12px);
+        border-radius: 16px;
+        border: 1px solid rgba(255, 255, 255, 0.25);
+        box-shadow: 0 6px 24px rgba(0, 0, 0, 0.5);
+        padding: 12px 20px;
+    ">
+                        <?php if ($page > 1): ?>
+                            <li class="page-item">
+                                <a class="page-link" href="?page=<?= $page - 1 ?>" style="
+                    background-color: rgba(255, 255, 255, 0.15);
+                    color: #0e0e0e;
+                    border: none;
+                    padding: 6px 14px;
+                    margin: 0 6px;
+                    border-radius: 10px;
+                    font-weight: 600;
+                    box-shadow: 0 0 6px rgba(255, 255, 255, 0.25);
+                    transition: 0.3s ease-in-out;
+                ">&laquo; Prev</a>
+                            </li>
+                        <?php endif; ?>
+
+                        <?php for ($p = 1; $p <= $total_pages; $p++): ?>
+                            <li class="page-item <?= ($p == $page) ? 'active' : '' ?>">
+                                <a class="page-link" href="?page=<?= $p ?>" style="
+                    background-color: <?= ($p == $page) ? 'rgba(80, 77, 77, 0.49)' : 'rgba(255, 255, 255, 0.1)' ?>;
+                    color:  #000;
+                    font-weight: 600;
+                    padding: 6px 14px;
+                    margin: 0 6px;
+                    border-radius: 10px;
+                    border: none;
+                    box-shadow: <?= ($p == $page) ? '0 0 10px rgba(255, 255, 255, 0.5)' : '0 0 5px rgba(255, 255, 255, 0.1)' ?>;
+                    transition: 0.3s ease-in-out;
+                "><?= $p ?></a>
+                            </li>
+                        <?php endfor; ?>
+
+                        <?php if ($page < $total_pages): ?>
+                            <li class="page-item">
+                                <a class="page-link" href="?page=<?= $page + 1 ?>" style="
+                    background-color: rgba(255, 255, 255, 0.15);
+                    color: #0e0e0e;
+                    border: none;
+                    padding: 6px 14px;
+                    margin: 0 6px;
+                    border-radius: 10px;
+                    font-weight: 600;
+                    box-shadow: 0 0 6px rgba(255, 255, 255, 0.25);
+                    transition: 0.3s ease-in-out;
+                ">Next &raquo;</a>
+                            </li>
+                        <?php endif; ?>
+                    </ul>
+                </nav>
             </div>
         </div>
     </div>
 </div>
 <style>
-.glass-panel {
-    background: rgba(255, 255, 255, 0.18);
-    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.18);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-    border-radius: 18px;
-    border: 1px solid rgba(255,255,255,0.3);
-}
-.glass-table th, .glass-table td {
-    background: rgba(255,255,255,0.10) !important;
-    border: 1px solid rgba(255,255,255,0.18) !important;
-}
+    .glass-panel {
+        background: rgba(255, 255, 255, 0.18);
+        box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.18);
+        backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
+        border-radius: 18px;
+        border: 1px solid rgba(255, 255, 255, 0.3);
+    }
+
+    .glass-table th,
+    .glass-table td {
+        background: rgba(255, 255, 255, 0.10) !important;
+        border: 1px solid rgba(255, 255, 255, 0.18) !important;
+    }
 </style>
-<?php require_once('../layout/footer.php'); ?> 
+<?php require_once('../layout/footer.php'); ?>

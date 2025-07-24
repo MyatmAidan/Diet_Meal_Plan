@@ -1,4 +1,6 @@
 <?php
+require_once('../require/check_auth.php');
+check_auth(1);
 ob_start();
 require_once('../layout/header.php');
 $error = false;

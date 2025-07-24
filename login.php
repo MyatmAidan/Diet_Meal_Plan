@@ -1,5 +1,9 @@
 <?php
 session_start();
+if (isset($_SESSION['user_id'])) {
+    header("Location: http://localhost/healthy_meal_plan/" . ($_SESSION['user_role'] == 1 ? 'admin' : 'user') . "/index.php");
+    exit();
+}
 require_once('./require/db.php');
 
 $error = '';
@@ -15,21 +19,17 @@ if (isset($_POST['submit'])) {
 
         if ($result && $result->num_rows == 1) {
             $user = $result->fetch_assoc();
-
-            // For production: use password_verify instead
             if ($user['password'] === $password) {
                 $_SESSION['user_id'] = $user['id'];
                 $_SESSION['user_name'] = $user['name'];
                 $_SESSION['user_role'] = $user['role'];
 
-                // login.php → after successful login
                 $_SESSION['user_id'] = $user['id'];
 
                 if ($user['role'] == '1') {
                     header("Location: http://localhost/healthy_meal_plan/admin/");
                 } else {
                     $check_survey = $mysqli->query("SELECT id FROM user_surveys WHERE user_id = " . $_SESSION['user_id']);
-
                     if ($check_survey->num_rows == 0) {
                         header("Location: http://localhost/healthy_meal_plan/user/survey_fill.php");
                     } else {

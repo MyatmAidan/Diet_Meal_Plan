@@ -1,4 +1,6 @@
 <?php
+require_once('../require/check_auth.php');
+check_auth(0);
 ob_start();
 require_once('../layout/header.php');
 require_once('../require/db.php');
@@ -80,8 +82,8 @@ if (isset($_POST['submit'])) {
 ob_end_flush();
 ?>
 
-<div class="container-fluid mt-4">
-    <div class="row justify-content-center">
+<div class="container-fluid">
+    <div class="row justify-content-center p-3">
         <div class="col-md-6 col-lg-5">
             <div class="glass-panel p-4">
                 <h3 class="fw-bold mb-3">Health Survey</h3>

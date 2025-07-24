@@ -1,4 +1,6 @@
 <?php
+require_once('../require/check_auth.php');
+check_auth(0);
 require_once('../layout/header.php');
 require_once('../require/db.php');
 
@@ -42,8 +44,8 @@ if ($rec_result->num_rows > 0) {
 }
 ?>
 
-<div class="container-fluid mt-4">
-    <div class="row justify-content-center">
+<div class="container-fluid">
+    <div class="row justify-content-center p-3">
         <div class="col-md-10">
             <div class="glass-panel p-4">
                 <h3 class="fw-bold mb-3">Your Meal Plan</h3>
@@ -129,5 +131,4 @@ if ($rec_result->num_rows > 0) {
         border: 1px solid rgba(255, 255, 255, 0.18) !important;
     }
 </style>
-
 <?php require_once('../layout/footer.php'); ?>

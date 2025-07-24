@@ -1,5 +1,4 @@
 <?php
-session_start();
 require_once('../require/common.php');
 $is_admin = isset($_SESSION['user_role']) && $_SESSION['user_role'] == 1;
 ?>
@@ -17,13 +16,12 @@ $is_admin = isset($_SESSION['user_role']) && $_SESSION['user_role'] == 1;
 </head>
 
 <body>
-
-    <?php if ($is_admin): ?>
-        <button id="toggleSidebar" class="btn btn-light glass-panel">
-            <i class="bi bi-list fs-4"></i>
-        </button>
-        <div id="wrapper">
-            <!-- Sidebar -->
+    <button id="toggleSidebar" class="btn btn-light glass-panel">
+        <i class="bi bi-list fs-4"></i>
+    </button>
+    <div id="wrapper">
+        <!-- Sidebar -->
+        <?php if ($is_admin) { ?>
             <aside id="sidebar" class="p-4">
                 <div class="text-center mb-4">
                     <img src="../images/logo.png" alt="Logo" style="height:48px;">
@@ -43,17 +41,46 @@ $is_admin = isset($_SESSION['user_role']) && $_SESSION['user_role'] == 1;
                     <li class="nav-item mt-3"><a class="nav-link text-danger" href="../logout.php"><i class="bi bi-box-arrow-right me-2"></i>Logout</a></li>
                 </ul>
             </aside>
-        <?php endif; ?>
+        <?php } else { ?>
+            <aside id="sidebar" class="p-4">
+                <div class="text-center mb-4">
+                    <img src="../images/logo.png" alt="Logo" style="height:48px;">
+                    <h5 class="mt-2 fw-bold">User</h5>
+                </div>
+                <ul class="nav flex-column">
+                    <li class="nav-item">
+                        <a class="nav-link <?= basename($_SERVER['PHP_SELF']) == 'dashboard.php' ? 'active' : '' ?>" href="<?= $user_url ?>index.php">
+                            <i class="bi bi-house-door me-2"></i>Dashboard
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link <?= basename($_SERVER['PHP_SELF']) == 'planner.php' ? 'active' : '' ?>" href="<?= $user_url ?>planner.php">
+                            <i class="bi bi-calendar-check me-2"></i>Meal Plan
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link <?= basename($_SERVER['PHP_SELF']) == 'survey.php' ? 'active' : '' ?>" href="<?= $user_url ?>survey.php">
+                            <i class="bi bi-clipboard-check me-2"></i>Health Survey
+                        </a>
+                    </li>
+                    <li class="nav-item mt-3">
+                        <a class="nav-link text-danger" href="../logout.php">
+                            <i class="bi bi-box-arrow-right me-2"></i>Logout
+                        </a>
+                    </li>
+                </ul>
+            </aside>
+        <?php } ?>
 
         <!-- Main Content -->
-        <div id="<?= $is_admin ? 'mainContent' : '' ?>">
+        <div id="mainContent">
             <div class="container-fluid px-5 mt-3">
                 <nav class="navbar glass-panel px-4 py-2 row sticky-top">
                     <!-- Left: Page title -->
-                    <div class="fw-bold fs-5 col-md-2">Dashboard</div>
+                    <div class="fw-bold fs-5 col-md-3"><?= $is_admin ? 'Admin Dashboard' : 'User Dashboard' ?></div>
 
                     <!-- Middle: Glassmorphic Search Bar -->
-                    <div class="col-md-8">
+                    <div class="col-md-7">
                         <form class="d-none d-md-flex ms-3 flex-grow-1" role="search">
                             <div class="glass-panel d-flex align-items-center px-3 py-1 rounded-pill" style="width: 100%;">
                                 <i class="bi bi-search me-2 text-dark"></i>
@@ -69,7 +96,7 @@ $is_admin = isset($_SESSION['user_role']) && $_SESSION['user_role'] == 1;
                     <!-- Right: User Profile -->
                     <div class="d-flex align-items-center justify-content-end gap-2 col-md-2">
                         <img src="https://i.pravatar.cc/40?img=3" alt="Avatar" class="rounded-circle" style="width: 40px; height: 40px;">
-                        <span class="fw-semibold"><?= htmlspecialchars($_SESSION['user']['name'] ?? 'User') ?></span>
+                        <span class="fw-semibold"><?= htmlspecialchars($_SESSION['user_name'] ?? 'User') ?></span>
                     </div>
                 </nav>
             </div>

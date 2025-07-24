@@ -1,4 +1,10 @@
 <?php
+
+session_start();
+if (isset($_SESSION['user_id'])) {
+    header("Location: http://localhost/healthy_meal_plan/" . ($_SESSION['user_role'] == 1 ? 'admin' : 'user') . "/index.php");
+    exit();
+}
 require_once './require/common.php';
 require_once './require/db.php';
 $error = false;

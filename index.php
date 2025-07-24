@@ -1,3 +1,7 @@
+<?php
+session_start();
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -22,15 +26,13 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse d-flex justify-content-end" id="navbarNav">
-                <!-- <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
-                    <li class="nav-item"><a class="nav-link active" href="#">Home</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">About</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">Packages</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">Contact Us</a></li>
-                </ul> -->
-                <div class="mx-end">
-                    <a href="./login.php" class="btn btn-warning rounded-pill px-4 ms-lg-3">Login</a>
-                    <a href="./register.php" class="btn btn-warning rounded-pill px-4 ms-lg-3">Register</a>
+                <div class="mx-end navbar-nav">
+                    <?php if (isset($_SESSION['user_id'])) { ?>
+                        <a href="./<?= $_SESSION['user_role'] == 1 ? 'admin' : 'user' ?>/index.php" class="btn btn-warning rounded-pill px-4 ms-lg-3 nav-item">Dashboard</a>
+                    <?php } else { ?>
+                        <a href="./login.php" class="btn btn-warning rounded-pill px-4 ms-lg-3 nav-item">Login</a>
+                        <a href="./register.php" class="btn btn-warning rounded-pill px-4 ms-lg-3 nav-item">Register</a>
+                    <?php } ?>
                 </div>
             </div>
         </div>
@@ -243,7 +245,7 @@
                 <div class="col-md-6">
                     <div class="glass h-100">
                         <iframe
-                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d387190.2799147942!2d-74.25986768767196!3d40.69767006472171!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c250b41f2788f9%3A0x804e4e5f6bbbc6d4!2sNew%20York%2C%20USA!5e0!3m2!1sen!2s!4v1678273870934!5m2!1sen!2s"
+                            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3801.887800906623!2d95.45538657522766!3d17.655472283278126!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x30c0c112588a0061%3A0xf5c6f212a9320ba7!2sUniversity%20of%20Computer%20Studies%2C%20Hinthada!5e0!3m2!1sen!2smm!4v1753369955880!5m2!1sen!2smm"
                             width="100%" height="350" style="border:0; border-radius:16px;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade">
                         </iframe>
                     </div>
