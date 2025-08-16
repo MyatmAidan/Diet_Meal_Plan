@@ -33,12 +33,12 @@ $mysqli->query('SET FOREIGN_KEY_CHECKS=1');
 // Seed users
 seed_query($mysqli, "
     INSERT INTO users (name, email, password, role) VALUES
-    ('Admin User', 'admin@example.com', 'adminpass', 1),
-    ('John Doe', 'john@example.com', 'johnpass', 0),
-    ('Jane Smith', 'jane@example.com', 'janepass', 0),
-    ('Mike Tyson', 'mike@example.com', 'mikepass', 0),
-    ('Lucy Heart', 'lucy@example.com', 'lucypass', 0),
-    ('Tom Finn', 'tom@example.com', 'tompass', 0)
+    ('အက်ဒမင်', 'admin@gmail.com', '" . password_hash('password1', PASSWORD_DEFAULT) . "', 1),
+    ('John Doe', 'john@gmail.com', '" . password_hash('password1', PASSWORD_DEFAULT) . "', 0),
+    ('Jane Smith', 'jane@gmail.com', '" . password_hash('password1', PASSWORD_DEFAULT) . "', 0),
+    ('Mike Tyson', 'mike@gmail.com', '" . password_hash('password1', PASSWORD_DEFAULT) . "', 0),
+    ('Lucy Heart', 'lucy@gmail.com', '" . password_hash('password1', PASSWORD_DEFAULT) . "', 0),
+    ('Tom Finn', 'tom@gmail.com', '" . password_hash('password1', PASSWORD_DEFAULT) . "', 0)
 ", 'Seed users');
 
 // Seed foods

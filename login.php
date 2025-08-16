@@ -19,7 +19,8 @@ if (isset($_POST['submit'])) {
 
         if ($result && $result->num_rows == 1) {
             $user = $result->fetch_assoc();
-            if ($user['password'] === $password) {
+            // Verify password
+            if (password_verify($password, $user['password'])) {
                 $_SESSION['user_id'] = $user['id'];
                 $_SESSION['user_name'] = $user['name'];
                 $_SESSION['user_role'] = $user['role'];
@@ -66,7 +67,7 @@ if (isset($_POST['submit'])) {
                     <img src="images/logo.png" alt="Diet Corner Logo" style="height:60px;">
                 </a>
             </div>
-            <h2 class="mb-4 text-center fw-bold">Login</h2>
+            <h2 class="mb-4 text-center fw-bold">လော့ဂ်အင်ဝင်ရန်</h2>
 
             <?php if (!empty($error)): ?>
                 <div class="alert alert-danger"><?= htmlspecialchars($error) ?></div>
@@ -74,21 +75,21 @@ if (isset($_POST['submit'])) {
 
             <form method="post">
                 <div class="mb-3">
-                    <label for="email" class="form-label">Email address</label>
-                    <input type="email" class="form-control glass-input" id="email" name="email" placeholder="Enter your email" required>
+                    <label for="email" class="form-label">အီးမေးလ်လိပ်စာ</label>
+                    <input type="email" class="form-control glass-input" id="email" name="email" placeholder="သင်၏ အီးမေးလ်လိပ်စာရိုက်ထည့်ပါ" required>
                 </div>
 
                 <div class="mb-3">
-                    <label for="password" class="form-label">Password</label>
-                    <input type="password" class="form-control glass-input" id="password" name="password" placeholder="Enter your password" required>
+                    <label for="password" class="form-label">စကားဝှက်</label>
+                    <input type="password" class="form-control glass-input" id="password" name="password" placeholder="စကားဝှက်ရိုက်ထည့်ပါ" required>
                 </div>
 
-                <button type="submit" name="submit" class="btn btn-primary w-100 fw-bold">Login</button>
+                <button type="submit" name="submit" class="btn btn-primary w-100 fw-bold">လော့ဂ်အင်ဝင်မည်</button>
             </form>
 
             <div class="text-center mt-3">
-                <span class="text-secondary">Don't have an account?</span>
-                <a href="register.php" class="text-decoration-none text-primary fw-semibold">Register</a>
+                <span class="text-secondary">အကောင့်မရှိဘူးလား?</span>
+                <a href="register.php" class="text-decoration-none text-primary fw-semibold">စာရင်းသွင်းရန်</a>
             </div>
         </div>
     </div>

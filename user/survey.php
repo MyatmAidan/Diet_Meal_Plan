@@ -33,27 +33,27 @@ if (isset($_POST['submit'])) {
     // Validation
     if ($age <= 0) {
         $error = true;
-        $age_err = "Enter a valid age.";
+        $age_err = "အသက်မှန်ကန်သော တန်ဖိုးကို ထည့်ပါ။";
     }
     if (!$gender) {
         $error = true;
-        $gender_err = "Select gender.";
+        $gender_err = "ကျား/မ ကို ရွေးပါ။";
     }
     if ($weight <= 0) {
         $error = true;
-        $weight_err = "Enter valid weight.";
+        $weight_err = "အလေးချိန်မှန်ကန်သော တန်ဖိုးကို ထည့်ပါ။";
     }
     if ($height <= 0) {
         $error = true;
-        $height_err = "Enter valid height.";
+        $height_err = "အမြင့်မှန်ကန်သော တန်ဖိုးကို ထည့်ပါ။";
     }
     if (!$activity_level) {
         $error = true;
-        $activity_level_err = "Select activity level.";
+        $activity_level_err = "လှုပ်ရှားမှုအဆင့်ကို ရွေးပါ။";
     }
     if (!$goal) {
         $error = true;
-        $goal_err = "Select goal.";
+        $goal_err = "ရည်ရွယ်ချက်ကို ရွေးပါ။";
     }
 
     if (!$error) {
@@ -72,10 +72,10 @@ if (isset($_POST['submit'])) {
             header("Location: index.php?msg=Survey+Updated");
             exit();
         } else {
-            $survey_msg = '<div class="alert alert-danger">Failed to save survey.</div>';
+            $survey_msg = '<div class="alert alert-danger">စစ်တမ်းကို သိမ်းဆည်းရာတွင် ပြဿနာဖြစ်ပွားခဲ့သည်။</div>';
         }
     } else {
-        $survey_msg = '<div class="alert alert-warning">Please fix the form errors.</div>';
+        $survey_msg = '<div class="alert alert-warning">ကျေးဇူးပြု၍ အမှားများကို ပြင်ဆင်ပါ။</div>';
     }
 }
 ?>
@@ -84,56 +84,58 @@ if (isset($_POST['submit'])) {
     <div class="row justify-content-center p-3">
         <div class="col-md-6 col-lg-5">
             <div class="glass-panel p-4">
-                <h3 class="fw-bold mb-3">Update Health Survey</h3>
+                <h3 class="fw-bold mb-3">ကျန်းမာရေး စစ်တမ်း ပြုပြင်ရန်</h3>
                 <?= $survey_msg ?>
                 <form method="post">
                     <div class="mb-3">
-                        <label class="form-label">Age</label>
+                        <label class="form-label">အသက်</label>
                         <input type="number" name="age" class="form-control glass-input" value="<?= htmlspecialchars($age) ?>">
                         <small class="text-danger"><?= $age_err ?></small>
                     </div>
                     <div class="mb-3">
-                        <label class="form-label">Gender</label>
+                        <label class="form-label">ကျား/မ</label>
                         <select name="gender" class="form-select glass-input">
-                            <option value="">Select</option>
-                            <option value="male" <?= $gender === 'male' ? 'selected' : '' ?>>Male</option>
-                            <option value="female" <?= $gender === 'female' ? 'selected' : '' ?>>Female</option>
+                            <option value="">ရွေးပါ</option>
+                            <option value="male" <?= $gender === 'male' ? 'selected' : '' ?>>ကျား</option>
+                            <option value="female" <?= $gender === 'female' ? 'selected' : '' ?>>မ</option>
                         </select>
                         <small class="text-danger"><?= $gender_err ?></small>
                     </div>
                     <div class="mb-3">
-                        <label class="form-label">Weight (kg)</label>
+                        <label class="form-label">အလေးချိန် (ကီလိုဂရမ်)</label>
                         <input type="number" step="0.1" name="weight" class="form-control glass-input" value="<?= htmlspecialchars($weight) ?>">
                         <small class="text-danger"><?= $weight_err ?></small>
                     </div>
                     <div class="mb-3">
-                        <label class="form-label">Height (cm)</label>
+                        <label class="form-label">အမြင့် (စင်တီမီတာ)</label>
                         <input type="number" step="0.1" name="height" class="form-control glass-input" value="<?= htmlspecialchars($height) ?>">
                         <small class="text-danger"><?= $height_err ?></small>
                     </div>
                     <div class="mb-3">
-                        <label class="form-label">Activity Level</label>
+                        <label class="form-label">လှုပ်ရှားမှုအဆင့်</label>
                         <select name="activity_level" class="form-select glass-input">
-                            <option value="">Select</option>
-                            <option value="sedentary" <?= $activity_level === 'sedentary' ? 'selected' : '' ?>>Sedentary</option>
-                            <option value="light" <?= $activity_level === 'light' ? 'selected' : '' ?>>Lightly Active</option>
-                            <option value="moderate" <?= $activity_level === 'moderate' ? 'selected' : '' ?>>Moderately Active</option>
-                            <option value="active" <?= $activity_level === 'active' ? 'selected' : '' ?>>Very Active</option>
+                            <option value="">ရွေးပါ</option>
+                            <option value="sedentary" <?= $activity_level === 'sedentary' ? 'selected' : '' ?>>မလှုပ်ရှားသေးသော</option>
+                            <option value="light" <?= $activity_level === 'light' ? 'selected' : '' ?>>နည်းနည်းလှုပ်ရှားသော</option>
+                            <option value="moderate" <?= $activity_level === 'moderate' ? 'selected' : '' ?>>အလယ်အလတ်လှုပ်ရှားသော</option>
+                            <option value="active" <?= $activity_level === 'active' ? 'selected' : '' ?>>အရမ်းလှုပ်ရှားသော</option>
                         </select>
                         <small class="text-danger"><?= $activity_level_err ?></small>
                     </div>
                     <div class="mb-3">
-                        <label class="form-label">Goal</label>
+                        <label class="form-label">ရည်ရွယ်ချက်</label>
                         <select name="goal" class="form-select glass-input">
-                            <option value="">Select</option>
-                            <option value="lose" <?= $goal === 'lose' ? 'selected' : '' ?>>Lose Weight</option>
-                            <option value="maintain" <?= $goal === 'maintain' ? 'selected' : '' ?>>Maintain Weight</option>
-                            <option value="gain" <?= $goal === 'gain' ? 'selected' : '' ?>>Gain Weight</option>
+                            <option value="">ရွေးပါ</option>
+                            <option value="lose" <?= $goal === 'lose' ? 'selected' : '' ?>>အလေးချိန်လျှော့ချရန်</option>
+                            <option value="maintain" <?= $goal === 'maintain' ? 'selected' : '' ?>>လက်ရှိအလေးချိန်ထိန်းရန်</option>
+                            <option value="gain" <?= $goal === 'gain' ? 'selected' : '' ?>>အလေးချိန်တိုးရန်</option>
+                            <option value="gain" <?= $goal === 'gain' ? 'selected' : '' ?>>ကြွက်သားတိုးရန်</option>
+                            
                         </select>
                         <small class="text-danger"><?= $goal_err ?></small>
                     </div>
                     <div class="text-end">
-                        <button type="submit" name="submit" class="btn btn-success">Save Survey</button>
+                        <button type="submit" name="submit" class="btn btn-success">စစ်တမ်းသိမ်းမည်</button>
                     </div>
                 </form>
             </div>
@@ -146,15 +148,16 @@ if (isset($_POST['submit'])) {
         background: rgba(255, 255, 255, 0.18);
         box-shadow: 0 8px 32px rgba(31, 38, 135, 0.18);
         backdrop-filter: blur(8px);
+        -webkit-backdrop-filter: blur(8px);
         border-radius: 18px;
         border: 1px solid rgba(255, 255, 255, 0.3);
-        color: #fff;
+        
     }
 
     .glass-input {
         background: rgba(255, 255, 255, 0.2) !important;
         color: #222;
-        border: 1px solid rgba(255, 255, 255, 0.3) !important;
+        border: 1px solid rgba(255, 255, 255, 0.18) !important;
     }
 </style>
 

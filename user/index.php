@@ -33,50 +33,50 @@ $plan = $recommendation_result->fetch_assoc();
     <div class="row justify-content-center">
         <div class="col-lg-8">
             <div class="glass-panel p-4 mb-4">
-                <h3 class="fw-bold mb-2">Welcome, <?= htmlspecialchars($_SESSION['user']['name']) ?> 👋</h3>
-                <p class="text-muted mb-0">Here’s your current health overview and plan.</p>
+                <h3 class="fw-bold mb-2">မင်္ဂလာပါ၊ <?= htmlspecialchars($_SESSION['user_name']) ?> 👋</h3>
+                <p class="text-muted mb-0">သင်၏လက်ရှိကျန်းမာရေးအခြေအနေနှင့် အစားအသောက်အစီအစဉ်ကို ဤနေရာတွင်ကြည့်နိုင်ပါသည်။</p>
             </div>
 
             <div class="row g-4">
                 <div class="col-md-6">
                     <div class="glass-panel p-4">
-                        <h5 class="fw-bold mb-3">🎯 Your Goal</h5>
+                        <h5 class="fw-bold mb-3">🎯 သင်၏ ကိုယ်ရေးအချက်အလက်</h5>
                         <ul class="list-unstyled mb-0">
-                            <li><strong>Goal:</strong> <?= ucfirst($survey['goal']) ?></li>
-                            <li><strong>BMR:</strong> <?= round($survey['bmr']) ?> kcal/day</li>
-                            <li><strong>Age:</strong> <?= $survey['age'] ?></li>
-                            <li><strong>Gender:</strong> <?= ucfirst($survey['gender']) ?></li>
-                            <li><strong>Height:</strong> <?= $survey['height'] ?> cm</li>
-                            <li><strong>Weight:</strong> <?= $survey['weight'] ?> kg</li>
-                            <li><strong>Activity:</strong> <?= ucfirst($survey['activity_level']) ?></li>
+                            <li><strong>ရည်ရွယ်ချက်:</strong> <?= ucfirst($survey['goal']) ?></li>
+                            <li><strong>BMI:</strong> <?= round($survey['bmr']) ?> ကီလိုကယ်လိုရီ</li>
+                            <li><strong>အသက်:</strong> <?= $survey['age'] ?> နှစ်</li>
+                            <li><strong>ကျား/မ:</strong> <?= ucfirst($survey['gender']) ?></li>
+                            <li><strong>အမြင့်:</strong> <?= $survey['height'] ?> စင်တီမီတာ</li>
+                            <li><strong>အလေးချိန်:</strong> <?= $survey['weight'] ?> ကီလိုဂရမ်</li>
+                            <li><strong>လှုပ်ရှားမှုအဆင့်:</strong> <?= ucfirst($survey['activity_level']) ?></li>
                         </ul>
                     </div>
                 </div>
 
                 <div class="col-md-6">
                     <div class="glass-panel p-4">
-                        <h5 class="fw-bold mb-3">📈 Progress</h5>
+                        <h5 class="fw-bold mb-3">📈 တိုးတက်မှု</h5>
                         <?php if ($progress): ?>
-                            <p class="mb-1"><strong>Date:</strong> <?= $progress['record_date'] ?></p>
-                            <p class="mb-1"><strong>Weight:</strong> <?= $progress['weight'] ?> kg</p>
-                            <p class="mb-1"><strong>Notes:</strong> <?= htmlspecialchars($progress['notes']) ?></p>
+                            <p class="mb-1"><strong>ရက်စွဲ:</strong> <?= $progress['record_date'] ?></p>
+                            <p class="mb-1"><strong>ကိုယ်အလေးချိန်:</strong> <?= $progress['weight'] ?> ကီလိုဂရမ်</p>
+                            <p class="mb-1"><strong>မှတ်ချက်:</strong> <?= htmlspecialchars($progress['notes']) ?></p>
                         <?php else: ?>
-                            <p class="text-muted">No progress recorded yet.</p>
+                            <p class="text-muted">မည်သည့်တိုးတက်မှုမှတ်တမ်းမျှ မရှိသေးပါ။</p>
                         <?php endif; ?>
-                        <a href="progress.php" class="btn btn-outline-light btn-sm mt-2">Update Progress</a>
+                        <a href="progress.php" class="btn btn-outline-light btn-sm mt-2">တိုးတက်မှု အသစ်ထည့်ရန်</a>
                     </div>
                 </div>
 
                 <div class="col-12">
                     <div class="glass-panel p-4">
-                        <h5 class="fw-bold mb-3">🍽️ Recommended Meal Plan</h5>
+                        <h5 class="fw-bold mb-3">🍽️ အကြံပြုထားသော အစားအသောက်အစီအစဉ်</h5>
                         <?php if ($plan): ?>
                             <h6><?= htmlspecialchars($plan['plan_name']) ?></h6>
                             <p class="mb-0"><?= htmlspecialchars($plan['description']) ?></p>
                         <?php else: ?>
-                            <p class="text-muted">Meal plan not yet generated.</p>
+                            <p class="text-muted">Meal plan မရှိသေးပါ။</p>
                         <?php endif; ?>
-                        <a href="planner.php" class="btn btn-success btn-sm mt-2">View My Plan</a>
+                        <a href="planner.php" class="btn btn-success btn-sm mt-2">ကျွန်ုပ်၏အစီအစဉ်ကြည့်ရန်</a>
                     </div>
                 </div>
             </div>

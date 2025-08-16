@@ -6,18 +6,19 @@ require_once('../require/db.php');
 
 $user_id = $_SESSION['user_id'];
 
-$user_id = $_SESSION['user_id'];
 // Fetch latest survey for this user
 $survey_sql = "SELECT * FROM `user_surveys` WHERE `user_id` = '$user_id' ORDER BY created_at DESC LIMIT 1";
 $survey_result = $mysqli->query($survey_sql);
 $survey = $survey_result->fetch_assoc();
 $surve_id = $survey['id'];
+
 // Check if a recommendation already exists
 $rec_sql = "SELECT r.*, m.name AS meal_plan_name, m.description 
             FROM user_diet_recommendations r
             JOIN meal_plans m ON r.meal_plan_id = m.id
             WHERE r.user_id = '$user_id' AND r.survey_id = '$surve_id'";
 $rec_result = $mysqli->query($rec_sql);
+
 if ($rec_result->num_rows > 0) {
     $recommendation = $rec_result->fetch_assoc();
 } else {
@@ -48,11 +49,9 @@ if ($rec_result->num_rows > 0) {
     <div class="row justify-content-center p-3">
         <div class="col-md-10">
             <div class="glass-panel p-4">
-                <h3 class="fw-bold mb-3">Your Meal Plan</h3>
+                <h3 class="fw-bold mb-3">သင့်အတွက် အစားအသောက်အစီအစဉ်</h3>
 
-                <?php if ($recommendation):
-                ?>
-
+                <?php if ($recommendation): ?>
                     <h4 class="mb-2"><?= htmlspecialchars($recommendation['meal_plan_name']) ?></h4>
                     <p class="text-muted"><?= htmlspecialchars($recommendation['description']) ?></p>
 
@@ -71,22 +70,23 @@ if ($rec_result->num_rows > 0) {
                             <table class="table glass-table align-middle mb-0">
                                 <thead class="table-light">
                                     <tr>
-                                        <th>Food</th>
-                                        <th>Qty</th>
-                                        <th>Unit</th>
-                                        <th>Calories</th>
-                                        <th>Protein (g)</th>
-                                        <th>Carbs (g)</th>
-                                        <th>Fat (g)</th>
+                                        <th>အစားအစာ</th>
+                                    
+                                        <th>ယူနစ်</th>
+                                        <th>ကယ်လိုရီ</th>
+                                        <th>ပရိုတိန်း (ဂရမ်)</th>
+                                        <th>ကာဗိုဟိုဒရိုက်(ဂရမ်)</th>
+                                        <th>အဆီ (ဂရမ်)</th>
+                                        <th>အရွယ်အစား</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <?php
                                     $meal_id = $meal['id'];
                                     $foods_sql = "SELECT f.*, mf.quantity 
-                                              FROM meal_foods mf 
-                                              JOIN foods f ON mf.food_id = f.id 
-                                              WHERE mf.meal_id = '$meal_id'";
+                                                  FROM meal_foods mf 
+                                                  JOIN foods f ON mf.food_id = f.id 
+                                                  WHERE mf.meal_id = '$meal_id'";
                                     $foods_result = $mysqli->query($foods_sql);
 
                                     while ($food = $foods_result->fetch_assoc()):
@@ -105,11 +105,9 @@ if ($rec_result->num_rows > 0) {
                             </table>
                         </div>
                     <?php endwhile; ?>
-
                 <?php else: ?>
-                    <div class="alert alert-warning">No meal plan available for your goal.</div>
+                    <div class="alert alert-warning">သင့်ရည်ရွယ်ချက်အတွက် အစားအသောက်အစီအစဉ် မတွေ့ရှိရပါ။</div>
                 <?php endif; ?>
-
             </div>
         </div>
     </div>
@@ -131,4 +129,5 @@ if ($rec_result->num_rows > 0) {
         border: 1px solid rgba(255, 255, 255, 0.18) !important;
     }
 </style>
+
 <?php require_once('../layout/footer.php'); ?>

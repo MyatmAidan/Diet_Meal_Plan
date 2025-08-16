@@ -65,6 +65,7 @@ if (isset($_POST['register'])) {
 
 
     if (!$error) {
+        $password = password_hash($password, PASSWORD_DEFAULT);
         $sql = "INSERT INTO `users` (`name`, `email`, `password`, `role`) VALUES ('$name', '$email', '$password', '0')";
         $result = $mysqli->query($sql);
 
@@ -100,41 +101,41 @@ if (isset($_POST['register'])) {
                     <img src="images/logo.png" alt="Diet Corner Logo" style="height:60px;">
                 </a>
             </div>
-            <h2 class="mb-4 text-center fw-bold">Register</h2>
+            <h2 class="mb-4 text-center fw-bold">စာရင်းသွင်းရန်</h2>
             <form method="POST">
                 <div class="mb-3">
-                    <label for="name" class="form-label">Name</label>
-                    <input type="text" class="form-control" id="name" name="name" placeholder="Enter your name" value="<?= $name ?>">
+                    <label for="name" class="form-label">အမည်</label>
+                    <input type="text" class="form-control" id="name" name="name" placeholder="သင့်အမည်ထည့်ပါ" value="<?= $name ?>">
                     <?php if (!empty($name_err)): ?>
                         <div class="text-danger small"><?= htmlspecialchars($name_err) ?></div>
                     <?php endif; ?>
                 </div>
                 <div class="mb-3">
-                    <label for="email" class="form-label">Email address</label>
-                    <input type="email" class="form-control" id="email" name="email" placeholder="Enter your email" value="<?= $email ?>">
+                    <label for="email" class="form-label">အီးမေးလ်</label>
+                    <input type="email" class="form-control" id="email" name="email" placeholder="သင့်အီးမေးလ်ထည့်ပါ" value="<?= $email ?>">
                     <?php if (!empty($email_err)): ?>
                         <div class="text-danger small"><?= htmlspecialchars($email_err) ?></div>
                     <?php endif; ?>
                 </div>
                 <div class="mb-3">
-                    <label for="password" class="form-label">Password</label>
-                    <input type="password" class="form-control" id="password" name="password" placeholder="Create a password" value="<?= $password ?>">
+                    <label for="password" class="form-label">စကားဝှက်</label>
+                    <input type="password" class="form-control" id="password" name="password" placeholder="စကားဝှက်ဖန်တီးပါ" value="<?= $password ?>">
                     <?php if (!empty($psw_err)): ?>
                         <div class="text-danger small"><?= htmlspecialchars($psw_err) ?></div>
                     <?php endif; ?>
                 </div>
                 <div class="mb-3">
-                    <label for="confirm_password" class="form-label">Confirm Password</label>
-                    <input type="password" class="form-control" id="confirm_password" name="confirm_password" placeholder="Confirm your password" value="<?= $confirm_password ?>">
+                    <label for="confirm_password" class="form-label">စကားဝှက်အတည်ပြုခြင်း</label>
+                    <input type="password" class="form-control" id="" name="confirm_password" placeholder="စကားဝှက်အတည်ပြုပါ" value="<?= $confirm_password ?>">
                     <?php if (!empty($confirm_password_err)): ?>
                         <div class="text-danger small"><?= htmlspecialchars($confirm_password_err) ?></div>
                     <?php endif; ?>
                 </div>
-                <button type="submit" name="register" class="btn w-100 mb-3">Register</button>
+                <button type="submit" name="register" class="btn w-100 mb-3">စာရင်းသွင်းရန်</button>
             </form>
             <div class="text-center">
-                <span class="text-secondary">Already have an account?</span>
-                <a href="login.php" class="text-decoration-none text-primary fw-semibold">Login</a>
+                <span class="text-secondary">သင့်မှာအကောင့်ရှိပါသလား?</span>
+                <a href="login.php" class="text-decoration-none text-primary fw-semibold">အကောင့်ဝင်ရန်</a>
             </div>
         </div>
     </div>

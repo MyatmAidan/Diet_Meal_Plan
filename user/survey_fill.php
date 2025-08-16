@@ -1,23 +1,26 @@
 <?php
 require_once('../require/check_auth.php');
 check_auth(0);
-ob_start();
 require_once('../layout/header.php');
 require_once('../require/db.php');
+
+$user_id = $_SESSION['user_id'];
 $error = false;
-$survey_msg =
-    $age =
-    $gender =
-    $weight =
-    $height =
-    $activity_level =
-    $goal =
-    $age_err =
-    $gender_err =
-    $weight_err =
-    $height_err =
-    $activity_level_err =
-    $goal_err = '';
+$survey_msg = '';
+$age = $gender = $weight = $height = $activity_level = $goal = '';
+$age_err = $gender_err = $weight_err = $height_err = $activity_level_err = $goal_err = '';
+
+// Get latest survey to prefill
+$latest = $mysqli->query("SELECT * FROM user_surveys WHERE user_id = $user_id ORDER BY id DESC LIMIT 1");
+if ($latest && $latest->num_rows > 0) {
+    $row = $latest->fetch_assoc();
+    $age = $row['age'];
+    $gender = $row['gender'];
+    $weight = $row['weight'];
+    $height = $row['height'];
+    $activity_level = $row['activity_level'];
+    $goal = $row['goal'];
+}
 
 if (isset($_POST['submit'])) {
     $age = trim($_POST['age']);
@@ -29,32 +32,32 @@ if (isset($_POST['submit'])) {
 
     if ($age == "" || $age <= 0) {
         $error = true;
-        $age_err = "Please enter a valid age";
+        $age_err = "အသက်မှန်ကန်သော တန်ဖိုးကို ထည့်ပါ။";
     }
 
     if ($gender == "") {
         $error = true;
-        $gender_err = "Please select gender";
+        $gender_err = "ကျား/မ ကိုရွေးပါ။";
     }
 
     if ($weight == "" || $weight <= 0) {
         $error = true;
-        $weight_err = "Please enter valid weight";
+        $weight_err = "အလေးချိန်မှန်ကန်သော တန်ဖိုးကို ထည့်ပါ။";
     }
 
     if ($height == "" || $height <= 0) {
         $error = true;
-        $height_err = "Please enter valid height";
+        $height_err = "အမြင့် မှန်ကန်သော တန်ဖိုးကို ထည့်ပါ။";
     }
 
     if ($activity_level == "") {
         $error = true;
-        $activity_level_err = "Please select activity level";
+        $activity_level_err = "လှုပ်ရှားမှုအဆင့်ကို ရွေးပါ။";
     }
 
     if ($goal == "") {
         $error = true;
-        $goal_err = "Please select goal";
+        $goal_err = "ရည်ရွယ်ချက်ကို ရွေးပါ။";
     }
 
 
@@ -73,10 +76,10 @@ if (isset($_POST['submit'])) {
             header("Location: " . $user_url . "planner.php?msg=created");
             exit();
         } else {
-            $survey_msg = '<div class="alert alert-danger mb-3">Error saving survey.</div>';
+            $survey_msg = '<div class="alert alert-danger mb-3">စစ်တမ်းကို သိမ်းဆည်းရာတွင် ပြဿနာဖြစ်ပွားခဲ့သည်။.</div>';
         }
     } else {
-        $survey_msg = '<div class="alert alert-warning mb-3">Please fix the errors below.</div>';
+        $survey_msg = '<div class="alert alert-warning mb-3">ကျေးဇူးပြု၍ အမှားများကို ပြင်ဆင်ပါ။</div>';
     }
 }
 ob_end_flush();
@@ -86,68 +89,69 @@ ob_end_flush();
     <div class="row justify-content-center p-3">
         <div class="col-md-6 col-lg-5">
             <div class="glass-panel p-4">
-                <h3 class="fw-bold mb-3">Health Survey</h3>
+                <h3 class="fw-bold mb-3">ကျန်းမာရေးစစ်တမ်းပြုပြင်ရန်</h3>
                 <?= $survey_msg ?>
                 <form method="post" autocomplete="off">
                     <div class="mb-3">
-                        <label for="age" class="form-label">Age</label>
+                        <label for="age" class="form-label">အသက်</label>
                         <input type="number" class="form-control glass-input" id="age" name="age" value="<?= htmlspecialchars($age) ?>">
                         <?php if (!empty($age_err)): ?>
                             <div class="text-danger small"><?= htmlspecialchars($age_err) ?></div>
                         <?php endif; ?>
                     </div>
                     <div class="mb-3">
-                        <label for="gender" class="form-label">Gender</label>
+                        <label for="gender" class="form-label">ကျား/မ</label>
                         <select class="form-select glass-input" name="gender" id="gender">
-                            <option value="">Select</option>
-                            <option value="male" <?= $gender == 'male' ? 'selected' : '' ?>>Male</option>
-                            <option value="female" <?= $gender == 'female' ? 'selected' : '' ?>>Female</option>
+                            <option value="">ရွေးပါ</option>
+                            <option value="male" <?= $gender == 'male' ? 'selected' : '' ?>>ကျား</option>
+                            <option value="female" <?= $gender == 'female' ? 'selected' : '' ?>>မ</option>
                         </select>
                         <?php if (!empty($gender_err)): ?>
                             <div class="text-danger small"><?= htmlspecialchars($gender_err) ?></div>
                         <?php endif; ?>
                     </div>
                     <div class="mb-3">
-                        <label for="weight" class="form-label">Weight (kg)</label>
+                        <label for="weight" class="form-label">အလေးချိန် (ကီလိုဂရမ်)</label>
                         <input type="number" step="0.1" class="form-control glass-input" id="weight" name="weight" value="<?= htmlspecialchars($weight) ?>">
                         <?php if (!empty($weight_err)): ?>
                             <div class="text-danger small"><?= htmlspecialchars($weight_err) ?></div>
                         <?php endif; ?>
                     </div>
                     <div class="mb-3">
-                        <label for="height" class="form-label">Height (cm)</label>
+                        <label for="height" class="form-label">အမြင့် (စင်တီမီတာ)</label>
                         <input type="number" step="0.1" class="form-control glass-input" id="height" name="height" value="<?= htmlspecialchars($height) ?>">
                         <?php if (!empty($height_err)): ?>
                             <div class="text-danger small"><?= htmlspecialchars($height_err) ?></div>
                         <?php endif; ?>
                     </div>
                     <div class="mb-3">
-                        <label for="activity_level" class="form-label">Activity Level</label>
+                        <label for="activity_level" class="form-label">လှုပ်ရှားမှုအဆင့်</label>
                         <select class="form-select glass-input" name="activity_level" id="activity_level">
-                            <option value="">Select</option>
-                            <option value="sedentary" <?= $activity_level == 'sedentary' ? 'selected' : '' ?>>Sedentary</option>
-                            <option value="light" <?= $activity_level == 'light' ? 'selected' : '' ?>>Lightly Active</option>
-                            <option value="moderate" <?= $activity_level == 'moderate' ? 'selected' : '' ?>>Moderately Active</option>
-                            <option value="active" <?= $activity_level == 'active' ? 'selected' : '' ?>>Very Active</option>
+                            <option value="">ရွေးပါ</option>
+                            <option value="sedentary" <?= $activity_level == 'sedentary' ? 'selected' : '' ?>>မလှုပ်ရှားသော</option>
+                            <option value="light" <?= $activity_level == 'light' ? 'selected' : '' ?>>နည်းနည်းလှုပ်ရှားသော</option>
+                            <option value="moderate" <?= $activity_level == 'moderate' ? 'selected' : '' ?>>အလယ်အလတ်လှုပ်ရှားသော</option>
+                            <option value="active" <?= $activity_level == 'active' ? 'selected' : '' ?>>အရမ်းလှုပ်ရှားသော</option>
                         </select>
                         <?php if (!empty($activity_level_err)): ?>
                             <div class="text-danger small"><?= htmlspecialchars($activity_level_err) ?></div>
                         <?php endif; ?>
                     </div>
                     <div class="mb-3">
-                        <label for="goal" class="form-label">Goal</label>
+                        <label for="goal" class="form-label">ရည်ရွယ်ချက်</label>
                         <select class="form-select glass-input" name="goal" id="goal">
-                            <option value="">Select</option>
-                            <option value="lose" <?= $goal == 'lose' ? 'selected' : '' ?>>Lose Weight</option>
-                            <option value="maintain" <?= $goal == 'maintain' ? 'selected' : '' ?>>Maintain Weight</option>
-                            <option value="gain" <?= $goal == 'gain' ? 'selected' : '' ?>>Gain Weight</option>
+                            <option value="">ရွေးပါ</option>
+                            <option value="lose" <?= $goal == 'lose' ? 'selected' : '' ?>>အလေးချိန်လျော့ချရန်</option>
+                            <option value="maintain" <?= $goal == 'maintain' ? 'selected' : '' ?>>လက်ရှိအလေးချိန်ထိန်းရန်</option>
+                            <option value="gain" <?= $goal == 'gain' ? 'selected' : '' ?>>အလေးချိန်တိုးရန်</option>
+                            <option value="gain" <?= $goal == 'gain' ? 'selected' : '' ?>>ကြွက်သားတိုးရန်</option>
                         </select>
                         <?php if (!empty($goal_err)): ?>
                             <div class="text-danger small"><?= htmlspecialchars($goal_err) ?></div>
                         <?php endif; ?>
                     </div>
                     <div class="d-flex justify-content-end">
-                        <button type="submit" name="submit" class="btn btn-success fw-bold">Save Survey</button>
+                        <button type="submit" name="submit" class="btn btn-success fw-bold">စစ်တမ်းသိမ်းမည်</button>
                     </div>
                 </form>
             </div>

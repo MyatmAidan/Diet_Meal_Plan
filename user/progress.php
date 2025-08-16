@@ -22,7 +22,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $notes = trim($_POST['notes']);
 
     if ($weight === '' || $weight <= 0) {
-        $weight_err = "Please enter a valid weight";
+        $weight_err = "ကျေးဇူးပြု၍ မှန်ကန်သော ကိုယ်အလေးချိန်ထည့်သွင်းပါ။";
     }
 
     if (!$weight_err && $bmr && $goal) {
@@ -33,10 +33,10 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             header("Location: index.php?msg=progress_updated");
             exit;
         } else {
-            $msg = '<div class="alert alert-danger">Failed to save progress.</div>';
+            $msg = '<div class="alert alert-danger">အချက်အလက်များ သိမ်းဆည်းရာတွင် အမှားရှိနေပါသည်။</div>';
         }
     } else {
-        $msg = '<div class="alert alert-warning">Please correct the error below.</div>';
+        $msg = '<div class="alert alert-warning">ကျေးဇူးပြု၍ အောက်ပါ အမှားများအား ပြင်ဆင်ပါ။</div>';
     }
 }
 ?>
@@ -45,22 +45,22 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     <div class="row justify-content-center">
         <div class="col-md-6 col-lg-5">
             <div class="glass-panel p-4">
-                <h4 class="fw-bold mb-3">Update Progress</h4>
+                <h4 class="fw-bold mb-3">တိုးတက်မှု မှတ်တမ်း ပြုလုပ်ရန်</h4>
                 <?= $msg ?>
                 <form method="post">
                     <div class="mb-3">
-                        <label for="weight" class="form-label">Weight (kg)</label>
+                        <label for="weight" class="form-label">ကိုယ်အလေးချိန် (ကီလိုဂရမ်)</label>
                         <input type="number" step="0.1" class="form-control glass-input" name="weight" id="weight" value="<?= htmlspecialchars($weight) ?>">
                         <?php if ($weight_err): ?>
                             <div class="text-danger small"><?= htmlspecialchars($weight_err) ?></div>
                         <?php endif; ?>
                     </div>
                     <div class="mb-3">
-                        <label for="notes" class="form-label">Notes (optional)</label>
+                        <label for="notes" class="form-label">မှတ်စုများ (ဆန္ဒရှိသူများအတွက်)</label>
                         <textarea class="form-control glass-input" name="notes" id="notes" rows="3"><?= htmlspecialchars($notes) ?></textarea>
                     </div>
                     <div class="d-flex justify-content-end">
-                        <button type="submit" class="btn btn-success fw-bold">Save Progress</button>
+                        <button type="submit" class="btn btn-success fw-bold">မှတ်တမ်းသိမ်းမည်</button>
                     </div>
                 </form>
             </div>

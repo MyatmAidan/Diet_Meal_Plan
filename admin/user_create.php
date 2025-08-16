@@ -76,7 +76,6 @@ ob_end_flush();
                     <div class="mb-3">
                         <label for="confirm_password" class="form-label">Password</label>
                         <input type="password" class="form-control glass-input" id="confirm_password" name="confirm_password">
-
                     </div>
                     <div class="mb-3">
                         <label for="role" class="form-label">Role</label>
