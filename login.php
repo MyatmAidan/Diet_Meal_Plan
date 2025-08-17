@@ -24,6 +24,7 @@ if (isset($_POST['submit'])) {
                 $_SESSION['user_id'] = $user['id'];
                 $_SESSION['user_name'] = $user['name'];
                 $_SESSION['user_role'] = $user['role'];
+                $_SESSION['user_img'] = $user['image'];
 
                 $_SESSION['user_id'] = $user['id'];
 

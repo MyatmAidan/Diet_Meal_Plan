@@ -38,8 +38,12 @@ function create_tables($mysqli)
     name VARCHAR(100),
     email VARCHAR(100) UNIQUE,
     password VARCHAR(255),
-    role INT NOT NULL
+    role INT NOT NULL,
+    image VARCHAR(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;");
+
+    // Add image column to existing users table if it doesn't exist
+    $mysqli->query("ALTER TABLE users ADD COLUMN IF NOT EXISTS image VARCHAR(255) DEFAULT NULL");
 
     // Create foods table
     $mysqli->query("CREATE TABLE IF NOT EXISTS foods (

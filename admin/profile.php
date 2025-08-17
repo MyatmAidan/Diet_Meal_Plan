@@ -7,24 +7,16 @@ require_once('../require/db.php');
 
 $error = false;
 $success_msg = '';
-$name_err = $email_err = $image_err = '';
+$name_err = $email_err = $password_err = $image_err = '';
 
-// Get user ID from URL
-$user_id = isset($_GET['id']) ? intval($_GET['id']) : 0;
-
-if ($user_id <= 0) {
-    header("Location: user_list.php");
-    exit();
-}
+$user_id = $_SESSION['user_id'];
 
 // Fetch user data
-$stmt = $mysqli->prepare("SELECT * FROM users WHERE id = ?");
-$stmt->bind_param("i", $user_id);
-$stmt->execute();
-$result = $stmt->get_result();
+$sql = "SELECT * FROM users WHERE id = $user_id";
+$result = $mysqli->query($sql);
 
 if ($result->num_rows === 0) {
-    header("Location: user_list.php");
+    header("Location: index.php");
     exit();
 }
 
@@ -34,13 +26,13 @@ $user = $result->fetch_assoc();
 $name = $user['name'];
 $email = $user['email'];
 $current_image = $user['image'];
-$role = $user['role'];
 
 // Handle form submission
 if (isset($_POST['submit'])) {
     $name = trim($_POST['name']);
     $email = trim($_POST['email']);
-    $role = intval($_POST['role']);
+    $password = trim($_POST['password']);
+    $confirm_password = trim($_POST['confirm_password']);
 
     // Validation
     if (empty($name)) {
@@ -57,14 +49,23 @@ if (isset($_POST['submit'])) {
     }
 
     // Check if email already exists for other users
-    $stmt = $mysqli->prepare("SELECT id FROM users WHERE email = ? AND id != ?");
-    $stmt->bind_param("si", $email, $user_id);
-    $stmt->execute();
-    $email_check = $stmt->get_result();
+    $email_check_sql = "SELECT id FROM users WHERE email = '$email' AND id != $user_id";
+    $email_check = $mysqli->query($email_check_sql);
 
     if ($email_check->num_rows > 0) {
         $error = true;
         $email_err = "ဤအီးမေးလ်လိပ်စာကို အသုံးပြုပြီးဖြစ်သည်";
+    }
+
+    // Password validation (only if password is provided)
+    if (!empty($password)) {
+        if (strlen($password) < 6) {
+            $error = true;
+            $password_err = "စကားဝှက်သည် အနည်းဆုံး ၆ လုံးရှိရမည်";
+        } elseif ($password !== $confirm_password) {
+            $error = true;
+            $password_err = "စကားဝှက်များ မတူညီပါ";
+        }
     }
 
     // Handle image upload
@@ -82,7 +83,7 @@ if (isset($_POST['submit'])) {
             $image_err = "ဓာတ်ပုံအရွယ်အစားသည် 5MB ထက်မကြီးရပါ။";
         } else {
             // Create uploads directory if it doesn't exist
-            $upload_dir = "../uploads/users/";
+            $upload_dir = "../images/";
             if (!file_exists($upload_dir)) {
                 mkdir($upload_dir, 0777, true);
             }
@@ -105,11 +106,20 @@ if (isset($_POST['submit'])) {
     }
 
     if (!$error) {
-        $update_sql = "UPDATE users SET name = '$name', email = '$email', role = $role, image = '$image_name' WHERE id = $user_id";
+        if (!empty($password)) {
+            // Update with new password
+            $update_sql = "UPDATE users SET name = '$name', email = '$email', password = '$password', image = '$image_name' WHERE id = $user_id";
+        } else {
+            // Update without changing password
+            $update_sql = "UPDATE users SET name = '$name', email = '$email', image = '$image_name' WHERE id = $user_id";
+        }
 
         if ($mysqli->query($update_sql)) {
-            header("Location: user_list.php?msg=updated");
-            exit();
+            // Update session data
+            $_SESSION['user_name'] = $name;
+            $_SESSION['user_email'] = $email;
+
+            $success_msg = '<div class="alert alert-success mb-3">ပရိုဖိုင် အောင်မြင်စွာ ပြင်ဆင်ပြီးပါပြီ။</div>';
         } else {
             $error = true;
             $success_msg = '<div class="alert alert-danger mb-3">အမှားရှိနေပါသည်။ ထပ်မံကြိုးစားကြည့်ပါ။</div>';
@@ -117,20 +127,35 @@ if (isset($_POST['submit'])) {
     }
 }
 ob_end_flush();
+// 
 ?>
 
 <div class="container-fluid mt-4">
     <div class="row justify-content-center">
-        <div class="col-md-6 col-lg-5">
+        <div class="col-md-8 col-lg-6">
             <div class="glass-panel p-4">
-                <div class="d-flex justify-content-between align-items-center mb-3">
-                    <h3 class="fw-bold mb-0">အသုံးပြုသူပြင်ဆင်ခြင်း</h3>
-                    <a href="user_list.php" class="btn btn-secondary btn-sm">
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h3 class="fw-bold mb-0">ပရိုဖိုင်</h3>
+                    <a href="index.php" class="btn btn-secondary btn-sm">
                         <i class="fas fa-arrow-left"></i> ပြန်သွားမည်
                     </a>
                 </div>
 
                 <?= $success_msg ?>
+
+                <!-- Profile Info Card -->
+                <div class="glass-panel p-4 mb-4" style="background: rgba(255, 255, 255, 0.1);">
+                    <div class="d-flex align-items-center gap-3 mb-3">
+                        <div class="profile-avatar-large">
+                            <i class="fas fa-user-circle"></i>
+                        </div>
+                        <div>
+                            <h5 class="mb-1"><?= htmlspecialchars($user['name']) ?></h5>
+                            <p class="mb-0 text-muted"><?= htmlspecialchars($user['email']) ?></p>
+                            <span class="badge bg-primary">အက်ဒမင်</span>
+                        </div>
+                    </div>
+                </div>
 
                 <form method="post" enctype="multipart/form-data" autocomplete="off">
                     <div class="mb-3">
@@ -152,6 +177,23 @@ ob_end_flush();
                     </div>
 
                     <div class="mb-3">
+                        <label for="password" class="form-label">စကားဝှက် (ပြောင်းလဲရန် ထည့်သွင်းပါ)</label>
+                        <input type="password" class="form-control glass-input" id="password" name="password"
+                            placeholder="စကားဝှက်ပြောင်းလဲရန် ထည့်သွင်းပါ">
+                        <small class="form-text text-muted">စကားဝှက်မပြောင်းလဲလိုပါက ဗလာထားပါ</small>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="confirm_password" class="form-label">စကားဝှက်အတည်ပြုခြင်း</label>
+                        <input type="password" class="form-control glass-input <?= !empty($password_err) ? 'is-invalid' : '' ?>"
+                            id="confirm_password" name="confirm_password"
+                            placeholder="စကားဝှက်အတည်ပြုခြင်း">
+                        <?php if (!empty($password_err)): ?>
+                            <div class="invalid-feedback"><?= htmlspecialchars($password_err) ?></div>
+                        <?php endif; ?>
+                    </div>
+
+                    <div class="mb-3">
                         <label for="image" class="form-label">ဓာတ်ပုံ</label>
                         <?php if ($current_image): ?>
                             <div class="mb-2">
@@ -168,23 +210,8 @@ ob_end_flush();
                         <?php endif; ?>
                     </div>
 
-                    <div class="mb-3">
-                        <label for="role" class="form-label">အခန်းကဏ္ဍ</label>
-                        <div class="role-selector">
-                            <div class="role-option <?= $role == 0 ? 'active' : '' ?>" data-value="0">
-                                <i class="fas fa-user"></i>
-                                <span>အသုံးပြုသူ</span>
-                            </div>
-                            <div class="role-option <?= $role == 1 ? 'active' : '' ?>" data-value="1">
-                                <i class="fas fa-user-shield"></i>
-                                <span>အက်ဒမင်</span>
-                            </div>
-                        </div>
-                        <input type="hidden" name="role" id="role" value="<?= $role ?>" required>
-                    </div>
-
                     <div class="d-flex justify-content-between">
-                        <a href="user_list.php" class="btn btn-secondary">ပယ်ဖျက်မည်</a>
+                        <a href="index.php" class="btn btn-secondary">ပယ်ဖျက်မည်</a>
                         <button type="submit" name="submit" class="btn btn-primary fw-bold">ပြင်ဆင်မည်</button>
                     </div>
                 </form>
@@ -215,91 +242,22 @@ ob_end_flush();
         box-shadow: 0 0 0 0.2rem rgba(255, 255, 255, 0.25) !important;
     }
 
-    .form-select.glass-input {
-        background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3e%3cpath fill='none' stroke='%23343a40' stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='m1 6 7 7 7-7'/%3e%3c/svg%3e") !important;
-    }
-
-    .role-selector {
-        display: flex;
-        gap: 10px;
-        margin-top: 8px;
-    }
-
-    .role-option {
-        flex: 1;
-        padding: 15px 20px;
-        background: rgba(255, 255, 255, 0.15);
-        border: 2px solid rgba(255, 255, 255, 0.2);
-        border-radius: 12px;
-        cursor: pointer;
-        transition: all 0.3s ease;
-        text-align: center;
-        backdrop-filter: blur(8px);
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 8px;
-    }
-
-    .role-option:hover {
-        background: rgba(255, 255, 255, 0.25);
-        border-color: rgba(255, 255, 255, 0.4);
-        transform: translateY(-2px);
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-    }
-
-    .role-option.active {
-        background: rgba(13, 110, 253, 0.2);
-        border-color: rgba(13, 110, 253, 0.5);
-        box-shadow: 0 0 15px rgba(13, 110, 253, 0.3);
-    }
-
-    .role-option i {
-        font-size: 24px;
-        color: #333;
-    }
-
-    .role-option.active i {
-        color: #0d6efd;
-    }
-
-    .role-option span {
-        font-weight: 600;
-        color: #333;
-        font-size: 14px;
-    }
-
-    .role-option.active span {
-        color: #0d6efd;
-    }
-
-    .profile-image-preview {
-        width: 60px;
-        height: 60px;
+    .profile-avatar-large {
+        width: 80px;
+        height: 80px;
         border-radius: 50%;
-        object-fit: cover;
-        border: 2px solid rgba(255, 255, 255, 0.3);
+        background: rgba(255, 255, 255, 0.2);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        backdrop-filter: blur(10px);
+        border: 3px solid rgba(255, 255, 255, 0.3);
+    }
+
+    .profile-avatar-large i {
+        font-size: 40px;
+        color: #fff;
     }
 </style>
-
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const roleOptions = document.querySelectorAll('.role-option');
-        const roleInput = document.getElementById('role');
-
-        roleOptions.forEach(option => {
-            option.addEventListener('click', function() {
-                // Remove active class from all options
-                roleOptions.forEach(opt => opt.classList.remove('active'));
-
-                // Add active class to clicked option
-                this.classList.add('active');
-
-                // Update hidden input value
-                roleInput.value = this.getAttribute('data-value');
-            });
-        });
-    });
-</script>
 
 <?php require_once('../layout/footer.php'); ?>

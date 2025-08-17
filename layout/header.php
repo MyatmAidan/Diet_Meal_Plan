@@ -15,7 +15,46 @@ $is_admin = isset($_SESSION['user_role']) && $_SESSION['user_role'] == 1;
     <title>Admin Dashboard - Diet Corner</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="../assets/css/dashboard.css">
+    <style>
+        .profile-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(10px);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .profile-avatar i {
+            font-size: 20px;
+            color: #fff;
+        }
+
+        .profile-avatar-img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .dropdown-menu {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        .dropdown-item:hover {
+            background: rgba(13, 110, 253, 0.1);
+        }
+    </style>
 </head>
 
 <body>
@@ -103,7 +142,35 @@ $is_admin = isset($_SESSION['user_role']) && $_SESSION['user_role'] == 1;
 
                     <!-- Right: User Profile -->
                     <div class="d-flex align-items-center justify-content-end gap-2 col-md-2">
-                        <span class="fw-semibold"><?= $_SESSION['user_name'] ?></span>
+                        <div class="dropdown">
+                            <div class="d-flex align-items-center gap-2" data-bs-toggle="dropdown" style="cursor: pointer;">
+                                <?php
+                                // Get user image from database
+                                $user_image = $_SESSION['user_img'];
+                                ?>
+                                <?php if (isset($user_image) && !empty($user_image)): ?>
+                                    <img src="images/<?= htmlspecialchars($user_data['image']) ?>"
+                                        alt="Profile" class="profile-avatar-img">
+                                <?php else: ?>
+                                    <div class="profile-avatar">
+                                        <i class="fas fa-user-circle"></i>
+                                    </div>
+                                <?php endif; ?>
+                                <span class="fw-semibold"><?= $_SESSION['user_name'] ?></span>
+                                <i class="fas fa-chevron-down"></i>
+                            </div>
+                            <ul class="dropdown-menu dropdown-menu-end">
+                                <li><a class="dropdown-item" href="<?= $is_admin ? $admin_url . 'profile.php' : $user_url . 'profile.php' ?>">
+                                        <i class="fas fa-user me-2"></i>ပရိုဖိုင်
+                                    </a></li>
+                                <li>
+                                    <hr class="dropdown-divider">
+                                </li>
+                                <li><a class="dropdown-item text-danger" href="../logout.php">
+                                        <i class="fas fa-sign-out-alt me-2"></i>ထွက်ရန်
+                                    </a></li>
+                            </ul>
+                        </div>
                     </div>
                 </nav>
             </div>

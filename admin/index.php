@@ -5,10 +5,11 @@ require_once('../layout/header.php');
 require_once('../require/db.php');
 
 // Query counts
-$user_count = $mysqli->query("SELECT COUNT(*) AS total FROM users")->fetch_assoc()['total'];
+$user_count = $mysqli->query("SELECT COUNT(*) AS `total` FROM `users`")->fetch_assoc()['total'];
 $meal_plan_count = $mysqli->query("SELECT COUNT(*) AS total FROM meal_plans")->fetch_assoc()['total'];
 $food_count = $mysqli->query("SELECT COUNT(*) AS total FROM foods")->fetch_assoc()['total'];
 $progress_count = $mysqli->query("SELECT COUNT(*) AS total FROM user_progress")->fetch_assoc()['total'];
+
 
 // Users per goal type (for chart)
 $goals_result = $mysqli->query("

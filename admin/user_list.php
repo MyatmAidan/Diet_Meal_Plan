@@ -85,6 +85,9 @@ if ($search) {
                                     <td><?= htmlspecialchars($row['email']) ?></td>
                                     <td><?= $row['role'] == 1 ? "အက်ဒမင်" : "အသုံးပြုသူ" ?></td>
                                     <td>
+                                        <a href="user.php?id=<?= $row['id'] ?>" class="btn btn-sm btn-info me-2">
+                                            ကြည့်မည်
+                                        </a>
                                         <a href="user_edit.php?id=<?= $row['id'] ?>" class="btn btn-sm btn-primary me-2">
                                             ပြင်ဆင်မည်
                                         </a>
