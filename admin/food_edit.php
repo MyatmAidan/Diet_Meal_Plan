@@ -1,6 +1,7 @@
 <?php
 require_once('../require/check_auth.php');
 check_auth(1);
+require_once('../require/i18n.php');
 ob_start();
 require_once('../layout/header.php');
 require_once('../require/db.php');
@@ -52,37 +53,37 @@ if (isset($_POST['submit'])) {
     // Validation
     if (empty($name)) {
         $error = true;
-        $name_err = "အမည်ထည့်သွင်းပါ";
+        $name_err = __("အမည်ထည့်သွင်းပါ");
     }
 
     if (empty($calories) || !is_numeric($calories) || $calories < 0) {
         $error = true;
-        $calories_err = "မှန်ကန်သောကလိုရီပမာဏထည့်သွင်းပါ";
+        $calories_err = __("မှန်ကန်သောကလိုရီပမာဏထည့်သွင်းပါ");
     }
 
     if (empty($protein) || !is_numeric($protein) || $protein < 0) {
         $error = true;
-        $protein_err = "မှန်ကန်သောပရိုတိန်းပမာဏထည့်သွင်းပါ";
+        $protein_err = __("မှန်ကန်သောပရိုတိန်းပမာဏထည့်သွင်းပါ");
     }
 
     if (empty($carbs) || !is_numeric($carbs) || $carbs < 0) {
         $error = true;
-        $carbs_err = "မှန်ကန်သောကာဗိုဟိုက်ဒြိတ်ပမာဏထည့်သွင်းပါ";
+        $carbs_err = __("မှန်ကန်သောကာဗိုဟိုက်ဒြိတ်ပမာဏထည့်သွင်းပါ");
     }
 
     if (empty($fat) || !is_numeric($fat) || $fat < 0) {
         $error = true;
-        $fat_err = "မှန်ကန်သောအဆီပမာဏထည့်သွင်းပါ";
+        $fat_err = __("မှန်ကန်သောအဆီပမာဏထည့်သွင်းပါ");
     }
 
     if (empty($serving_size) || !is_numeric($serving_size) || $serving_size <= 0) {
         $error = true;
-        $serving_size_err = "မှန်ကန်သောပမာဏထည့်သွင်းပါ";
+        $serving_size_err = __("မှန်ကန်သောပမာဏထည့်သွင်းပါ");
     }
 
     if (empty($unit)) {
         $error = true;
-        $unit_err = "ယူနစ်ထည့်သွင်းပါ";
+        $unit_err = __("ယူနစ်ထည့်သွင်းပါ");
     }
 
     if (!$error) {
@@ -94,7 +95,7 @@ if (isset($_POST['submit'])) {
             exit();
         } else {
             $error = true;
-            $success_msg = '<div class="alert alert-danger mb-3">အမှားရှိနေပါသည်။ ထပ်မံကြိုးစားကြည့်ပါ။</div>';
+            $success_msg = '<div class="alert alert-danger mb-3">' . __("အမှားရှိနေပါသည်။ ထပ်မံကြိုးစားကြည့်ပါ။") . '</div>';
         }
     }
 }
@@ -106,83 +107,83 @@ ob_end_flush();
         <div class="col-md-6 col-lg-5">
             <div class="glass-panel p-4">
                 <div class="d-flex justify-content-between align-items-center mb-3">
-                    <h3 class="fw-bold mb-0">အစားအစာပြင်ဆင်ခြင်း</h3>
+                    <h3 class="fw-bold mb-0"><?= __('အစားအစာပြင်ဆင်ခြင်း') ?></h3>
                     <a href="food_list.php" class="btn btn-secondary btn-sm">
-                        <i class="fas fa-arrow-left"></i> ပြန်သွားမည်
+                        <i class="fas fa-arrow-left"></i> <?= __('ပြန်သွားမည်') ?>
                     </a>
                 </div>
-                
+
                 <?= $success_msg ?>
-                
+
                 <form method="post" autocomplete="off">
                     <div class="mb-3">
-                        <label for="name" class="form-label">အမည်</label>
-                        <input type="text" class="form-control glass-input <?= !empty($name_err) ? 'is-invalid' : '' ?>" 
-                               id="name" name="name" value="<?= htmlspecialchars($name) ?>" required>
+                        <label for="name" class="form-label"><?= __('အမည်') ?></label>
+                        <input type="text" class="form-control glass-input <?= !empty($name_err) ? 'is-invalid' : '' ?>"
+                            id="name" name="name" value="<?= htmlspecialchars($name) ?>" required>
                         <?php if (!empty($name_err)): ?>
                             <div class="invalid-feedback"><?= htmlspecialchars($name_err) ?></div>
                         <?php endif; ?>
                     </div>
-                    
+
                     <div class="mb-3">
-                        <label for="calories" class="form-label">ကလိုရီ</label>
-                        <input type="number" step="0.01" class="form-control glass-input <?= !empty($calories_err) ? 'is-invalid' : '' ?>" 
-                               id="calories" name="calories" value="<?= htmlspecialchars($calories) ?>" required>
+                        <label for="calories" class="form-label"><?= __('ကယ်လိုရီ') ?></label>
+                        <input type="number" step="0.01" class="form-control glass-input <?= !empty($calories_err) ? 'is-invalid' : '' ?>"
+                            id="calories" name="calories" value="<?= htmlspecialchars($calories) ?>" required>
                         <?php if (!empty($calories_err)): ?>
                             <div class="invalid-feedback"><?= htmlspecialchars($calories_err) ?></div>
                         <?php endif; ?>
                     </div>
-                    
+
                     <div class="mb-3">
-                        <label for="protein" class="form-label">ပရိုတိန်း (g)</label>
-                        <input type="number" step="0.01" class="form-control glass-input <?= !empty($protein_err) ? 'is-invalid' : '' ?>" 
-                               id="protein" name="protein" value="<?= htmlspecialchars($protein) ?>" required>
+                        <label for="protein" class="form-label"><?= __('ပရိုတိန်း') ?> (g)</label>
+                        <input type="number" step="0.01" class="form-control glass-input <?= !empty($protein_err) ? 'is-invalid' : '' ?>"
+                            id="protein" name="protein" value="<?= htmlspecialchars($protein) ?>" required>
                         <?php if (!empty($protein_err)): ?>
                             <div class="invalid-feedback"><?= htmlspecialchars($protein_err) ?></div>
                         <?php endif; ?>
                     </div>
-                    
+
                     <div class="mb-3">
-                        <label for="carbs" class="form-label">ကာဗိုဟိုက်ဒြိတ် (g)</label>
-                        <input type="number" step="0.01" class="form-control glass-input <?= !empty($carbs_err) ? 'is-invalid' : '' ?>" 
-                               id="carbs" name="carbs" value="<?= htmlspecialchars($carbs) ?>" required>
+                        <label for="carbs" class="form-label"><?= __('ကာဗိုဟိုက်ဒြိတ်') ?> (g)</label>
+                        <input type="number" step="0.01" class="form-control glass-input <?= !empty($carbs_err) ? 'is-invalid' : '' ?>"
+                            id="carbs" name="carbs" value="<?= htmlspecialchars($carbs) ?>" required>
                         <?php if (!empty($carbs_err)): ?>
                             <div class="invalid-feedback"><?= htmlspecialchars($carbs_err) ?></div>
                         <?php endif; ?>
                     </div>
-                    
+
                     <div class="mb-3">
-                        <label for="fat" class="form-label">အဆီ (g)</label>
-                        <input type="number" step="0.01" class="form-control glass-input <?= !empty($fat_err) ? 'is-invalid' : '' ?>" 
-                               id="fat" name="fat" value="<?= htmlspecialchars($fat) ?>" required>
+                        <label for="fat" class="form-label"><?= __('အဆီ') ?> (g)</label>
+                        <input type="number" step="0.01" class="form-control glass-input <?= !empty($fat_err) ? 'is-invalid' : '' ?>"
+                            id="fat" name="fat" value="<?= htmlspecialchars($fat) ?>" required>
                         <?php if (!empty($fat_err)): ?>
                             <div class="invalid-feedback"><?= htmlspecialchars($fat_err) ?></div>
                         <?php endif; ?>
                     </div>
-                    
+
                     <div class="mb-3">
-                        <label for="serving_size" class="form-label">ပမာဏ</label>
-                        <input type="number" step="0.01" class="form-control glass-input <?= !empty($serving_size_err) ? 'is-invalid' : '' ?>" 
-                               id="serving_size" name="serving_size" value="<?= htmlspecialchars($serving_size) ?>" required>
+                        <label for="serving_size" class="form-label"><?= __('ပမာဏ') ?></label>
+                        <input type="number" step="0.01" class="form-control glass-input <?= !empty($serving_size_err) ? 'is-invalid' : '' ?>"
+                            id="serving_size" name="serving_size" value="<?= htmlspecialchars($serving_size) ?>" required>
                         <?php if (!empty($serving_size_err)): ?>
                             <div class="invalid-feedback"><?= htmlspecialchars($serving_size_err) ?></div>
                         <?php endif; ?>
                     </div>
-                    
+
                     <div class="mb-3">
-                        <label for="unit" class="form-label">ယူနစ်</label>
-                        <input type="text" class="form-control glass-input <?= !empty($unit_err) ? 'is-invalid' : '' ?>" 
-                               id="unit" name="unit" value="<?= htmlspecialchars($unit) ?>" required>
+                        <label for="unit" class="form-label"><?= __('ယူနစ်') ?></label>
+                        <input type="text" class="form-control glass-input <?= !empty($unit_err) ? 'is-invalid' : '' ?>"
+                            id="unit" name="unit" value="<?= htmlspecialchars($unit) ?>" required>
                         <?php if (!empty($unit_err)): ?>
                             <div class="invalid-feedback"><?= htmlspecialchars($unit_err) ?></div>
                         <?php endif; ?>
                     </div>
-                    
+
                     <div class="d-flex justify-content-between">
-                        <a href="food_list.php" class="btn btn-secondary">ပယ်ဖျက်မည်</a>
+                        <a href="food_list.php" class="btn btn-secondary"><?= __('ပယ်ဖျက်မည်') ?></a>
                         <button type="submit" name="submit" class="btn btn-primary fw-bold">
-                    <i class="bi bi-check-circle me-2"></i>ပြင်ဆင်မည်
-                </button>
+                            <i class="bi bi-check-circle me-2"></i><?= __('ပြင်ဆင်မည်') ?>
+                        </button>
                     </div>
                 </form>
             </div>

@@ -1,6 +1,7 @@
 <?php
 require_once('../require/check_auth.php');
 check_auth(1);
+require_once('../require/i18n.php');
 ob_start();
 require_once('../layout/header.php');
 require_once('../require/db.php');
@@ -44,17 +45,17 @@ if (isset($_POST['submit'])) {
     // Validation
     if (empty($name)) {
         $error = true;
-        $name_err = "အမည်ထည့်သွင်းပါ";
+        $name_err = __("အမည်ထည့်သွင်းပါ");
     }
 
     if (empty($description)) {
         $error = true;
-        $description_err = "ဖော်ပြချက်ထည့်သွင်းပါ";
+        $description_err = __("ဖော်ပြချက်ထည့်သွင်းပါ");
     }
 
     if (empty($goal_type)) {
         $error = true;
-        $goal_type_err = "ရည်ရွယ်ချက်ရွေးချယ်ပါ";
+        $goal_type_err = __("ရည်ရွယ်ချက်ရွေးချယ်ပါ");
     }
 
     if (!$error) {
@@ -66,7 +67,7 @@ if (isset($_POST['submit'])) {
             exit();
         } else {
             $error = true;
-            $success_msg = '<div class="alert alert-danger mb-3">အမှားရှိနေပါသည်။ ထပ်မံကြိုးစားကြည့်ပါ။</div>';
+            $success_msg = '<div class="alert alert-danger mb-3">' . __("အမှားရှိနေပါသည်။ ထပ်မံကြိုးစားကြည့်ပါ။") . '</div>';
         }
     }
 }
@@ -78,47 +79,47 @@ ob_end_flush();
         <div class="col-md-6 col-lg-5">
             <div class="glass-panel p-4">
                 <div class="d-flex justify-content-between align-items-center mb-3">
-                    <h3 class="fw-bold mb-0">အစားအစာအစီအစဉ်ပြင်ဆင်ခြင်း</h3>
+                    <h3 class="fw-bold mb-0"><?= __('အစားအစာအစီအစဉ်ပြင်ဆင်ခြင်း') ?></h3>
                     <a href="meal_plan_list.php" class="btn btn-secondary btn-sm">
-                        <i class="fas fa-arrow-left"></i> ပြန်သွားမည်
+                        <i class="fas fa-arrow-left"></i> <?= __('ပြန်သွားမည်') ?>
                     </a>
                 </div>
-                
+
                 <?= $success_msg ?>
-                
+
                 <form method="post" autocomplete="off">
                     <div class="mb-3">
-                        <label for="name" class="form-label">အမည်</label>
-                        <input type="text" class="form-control glass-input <?= !empty($name_err) ? 'is-invalid' : '' ?>" 
-                               id="name" name="name" value="<?= htmlspecialchars($name) ?>" required>
+                        <label for="name" class="form-label"><?= __('အမည်') ?></label>
+                        <input type="text" class="form-control glass-input <?= !empty($name_err) ? 'is-invalid' : '' ?>"
+                            id="name" name="name" value="<?= htmlspecialchars($name) ?>" required>
                         <?php if (!empty($name_err)): ?>
                             <div class="invalid-feedback"><?= htmlspecialchars($name_err) ?></div>
                         <?php endif; ?>
                     </div>
-                    
+
                     <div class="mb-3">
-                        <label for="description" class="form-label">ဖော်ပြချက်</label>
-                        <textarea class="form-control glass-input <?= !empty($description_err) ? 'is-invalid' : '' ?>" 
-                                  id="description" name="description" rows="3" required><?= htmlspecialchars($description) ?></textarea>
+                        <label for="description" class="form-label"><?= __('ဖော်ပြချက်') ?></label>
+                        <textarea class="form-control glass-input <?= !empty($description_err) ? 'is-invalid' : '' ?>"
+                            id="description" name="description" rows="3" required><?= htmlspecialchars($description) ?></textarea>
                         <?php if (!empty($description_err)): ?>
                             <div class="invalid-feedback"><?= htmlspecialchars($description_err) ?></div>
                         <?php endif; ?>
                     </div>
-                    
+
                     <div class="mb-3">
-                        <label for="goal_type" class="form-label">ရည်ရွယ်ချက်</label>
+                        <label for="goal_type" class="form-label"><?= __('ရည်ရွယ်ချက်') ?></label>
                         <div class="goal-type-selector">
                             <div class="goal-type-option <?= $goal_type == 'lose' ? 'active' : '' ?>" data-value="lose">
                                 <i class="fas fa-arrow-down"></i>
-                                <span>အလေးချိန်လျှော့ချရန်</span>
+                                <span><?= __('အလေးချိန်လျှော့ချရန်') ?></span>
                             </div>
                             <div class="goal-type-option <?= $goal_type == 'maintain' ? 'active' : '' ?>" data-value="maintain">
                                 <i class="fas fa-equals"></i>
-                                <span>အလေးချိန်ထိန်းရန်</span>
+                                <span><?= __('အလေးချိန်ထိန်းရန်') ?></span>
                             </div>
                             <div class="goal-type-option <?= $goal_type == 'gain' ? 'active' : '' ?>" data-value="gain">
                                 <i class="fas fa-arrow-up"></i>
-                                <span>အလေးချိန်တိုးရန်</span>
+                                <span><?= __('အလေးချိန်တိုးရန်') ?></span>
                             </div>
                         </div>
                         <input type="hidden" name="goal_type" id="goal_type" value="<?= $goal_type ?>" required>
@@ -126,12 +127,12 @@ ob_end_flush();
                             <div class="text-danger small mt-1"><?= htmlspecialchars($goal_type_err) ?></div>
                         <?php endif; ?>
                     </div>
-                    
+
                     <div class="d-flex justify-content-between">
-                        <a href="meal_plan_list.php" class="btn btn-secondary">ပယ်ဖျက်မည်</a>
+                        <a href="meal_plan_list.php" class="btn btn-secondary"><?= __('ပယ်ဖျက်မည်') ?></a>
                         <button type="submit" name="submit" class="btn btn-primary fw-bold">
-                    <i class="bi bi-check-circle me-2"></i>ပြင်ဆင်မည်
-                </button>
+                            <i class="bi bi-check-circle me-2"></i><?= __('ပြင်ဆင်မည်') ?>
+                        </button>
                     </div>
                 </form>
             </div>
@@ -221,23 +222,23 @@ ob_end_flush();
 </style>
 
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-    const goalTypeOptions = document.querySelectorAll('.goal-type-option');
-    const goalTypeInput = document.getElementById('goal_type');
+    document.addEventListener('DOMContentLoaded', function() {
+        const goalTypeOptions = document.querySelectorAll('.goal-type-option');
+        const goalTypeInput = document.getElementById('goal_type');
 
-    goalTypeOptions.forEach(option => {
-        option.addEventListener('click', function() {
-            // Remove active class from all options
-            goalTypeOptions.forEach(opt => opt.classList.remove('active'));
-            
-            // Add active class to clicked option
-            this.classList.add('active');
-            
-            // Update hidden input value
-            goalTypeInput.value = this.getAttribute('data-value');
+        goalTypeOptions.forEach(option => {
+            option.addEventListener('click', function() {
+                // Remove active class from all options
+                goalTypeOptions.forEach(opt => opt.classList.remove('active'));
+
+                // Add active class to clicked option
+                this.classList.add('active');
+
+                // Update hidden input value
+                goalTypeInput.value = this.getAttribute('data-value');
+            });
         });
     });
-});
 </script>
 
 <?php require_once('../layout/footer.php'); ?>

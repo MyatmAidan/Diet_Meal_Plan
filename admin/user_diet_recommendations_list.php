@@ -1,6 +1,7 @@
 <?php
 require_once('../require/check_auth.php');
 check_auth(1);
+require_once('../require/i18n.php');
 require_once('../layout/header.php');
 require_once('../require/db.php');
 require_once('../require/common.php');
@@ -60,13 +61,13 @@ $result = $stmt->get_result();
     <div class="row">
         <div class="col-12">
             <div class="mb-3 d-flex justify-content-between align-items-center">
-                <h3 class="fw-bold mb-0">အသုံးပြုသူအတွက် အာဟာရအကြံပြုချက်များ</h3>
-               
+                <h3 class="fw-bold mb-0"><?= __('အသုံးပြုသူအတွက် အာဟာရအကြံပြုချက်များ') ?></h3>
+
             </div>
 
             <?php if (!empty($_GET['search'])): ?>
                 <div class="alert alert-info">
-                    "<?= htmlspecialchars($_GET['search']) ?>" အတွက် ရလဒ် <?= $total_rows ?> ခု တွေ့ရှိခဲ့သည်။
+                    "<?= htmlspecialchars($_GET['search']) ?>" <?= __('အတွက် ရလဒ်') ?> <?= $total_rows ?> <?= __('ခု တွေ့ရှိခဲ့သည်။') ?>
                 </div>
             <?php endif; ?>
 
@@ -74,18 +75,18 @@ $result = $stmt->get_result();
                 <table class="table table-hover table-bordered align-middle mb-0 glass-table">
                     <thead class="table-light">
                         <tr>
-                            <th>စဉ်</th>
-                            <th>အသုံးပြုသူ</th>
-                            <th>အစာအစီအစဉ်</th>
-                            <th>အကြံပြုခဲ့သည့်နေ့စွဲ</th>
-                            <th>လုပ်ဆောင်ချက်</th>
+                            <th><?= __('စဉ်') ?></th>
+                            <th><?= __('အသုံးပြုသူ') ?></th>
+                            <th><?= __('အစာအစီအစဉ်') ?></th>
+                            <th><?= __('အကြံပြုခဲ့သည့်နေ့စွဲ') ?></th>
+                            <th><?= __('လုပ်ဆောင်ချက်') ?></th>
                         </tr>
                     </thead>
                     <tbody>
                         <?php $i = $offset + 1; ?>
                         <?php if ($result->num_rows === 0): ?>
                             <tr>
-                                <td colspan="5" class="text-center">မည်သည့်ရလဒ်များလည်းမရှိပါ</td>
+                                <td colspan="5" class="text-center"><?= __('မည်သည့်ရလဒ်များလည်းမရှိပါ') ?></td>
                             </tr>
                         <?php else: ?>
                             <?php while ($row = $result->fetch_assoc()): ?>
@@ -95,7 +96,7 @@ $result = $stmt->get_result();
                                     <td><?= htmlspecialchars($row['meal_plan_name']) ?></td>
                                     <td><?= htmlspecialchars($row['recommended_at']) ?></td>
                                     <td>
-                                        <button class="btn btn-sm btn-danger btn-delete-recommendation" onclick="deleteFun(<?= $row['user_id'] ?>, 'user_id', <?= $row['id'] ?>)" data-id="<?= $row['id'] ?>" title="ဖျက်ရန်">
+                                        <button class="btn btn-sm btn-danger btn-delete-recommendation" onclick="deleteFun(<?= $row['user_id'] ?>, 'user_id', <?= $row['id'] ?>)" data-id="<?= $row['id'] ?>" title="<?= __('ဖျက်ရန်') ?>">
                                             <i class="bi bi-trash"></i>
                                         </button>
                                     </td>

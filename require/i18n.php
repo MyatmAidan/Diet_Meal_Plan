@@ -65,7 +65,7 @@ $__MY_TO_EN = [
 	'သင့်မှာအကောင့်ရှိပါသလား?' => 'Already have an account?',
 	'မူပိုင်ခွင့်ရှိပါသည်။' => 'All rights reserved.',
 	// Index page translations
-	'ဖြောင့်တောက်စွာစားပြီး ကျန်းမာရေးရှိပါစေ' => 'Eat Right, Stay Healthy',
+	'ကျန်းမာစွာနေထိုင်ပြီး အစာမှန်မှန်စားပါ' => 'Live Healthy, Eat Right',
 	'ကျွန်ုပ်တို့၏ အာဟာရအစီအစဉ် ဖြင့် သင့်စိတ်ကူးယဉ်ခန္ဓာကိုယ်ကို ပိုင်ဆိုင်လိုက်ပါ' => 'Own Your Dream Body with Our Nutrition Plan',
 	'မိတ်ဆွေအတွက်သီးသန့်ချမှတ်ထားသောအစားအစာအစီအစဉ်များ၊ ကျွမ်းကျင်သူများ၏အကြံပြုချက်များနှင့် တကယ်အကျိုးရှိသောဖော်ပြချက်များ' => 'Personalized meal plans for you, expert advice and real results',
 	'ယနေ့တင် စတင်လိုက်ပါ' => 'Start Today',
@@ -262,6 +262,7 @@ $__MY_TO_EN = [
 	'နေ့လည်စာ' => 'Lunch',
 	'ညစာ' => 'Dinner',
 	'Snack' => 'Snack',
+	'အစားအစာအမျိုးအစား' => 'Meal Type',
 	// User management translations
 	'အသုံးပြုသူ ထည့်ရန်' => 'Add User',
 	'အခန်းကဏ္ဍ' => 'Role',
@@ -278,12 +279,45 @@ $__MY_TO_EN = [
 	'အစားအစာများ' => 'Meals',
 	'အစားအစာအသစ်ထည့်ရန်' => 'Add New Meal',
 	'လုပ်ဆောင်ချက်' => 'Actions',
+
+	// Additional Admin list/table translations
+	'အစားအစာအစီအစဉ်များ' => 'Meal Plans',
+	'အစားအစာအစီအစဉ်အချက်အလက်များ အောင်မြင်စွာ ပြင်ဆင်ပြီးပါပြီ။' => 'Meal plan information updated successfully.',
+	'စဉ်' => 'No.',
+	'ဖော်ပြချက်' => 'Description',
+	'ရည်ရွယ်ချက်' => 'Goal',
+	'ဖျက်ရန်' => 'Delete',
+	'အစားအစာအစီအစဉ်အတွက် အစားအစာများ' => 'Meals for Meal Plans',
+	'အစားအစာ ထည့်ရန်' => 'Add Meal',
+	'အစားအစာအစီအစဉ်အမည်' => 'Meal Plan Name',
+	'အစားအစာအမည်' => 'Meal Name',
+	'လုပ်ဆောင်မှုများ' => 'Actions',
+	'အသုံးပြုသူအတွက် အာဟာရအကြံပြုချက်များ' => 'Diet Recommendations for Users',
+	'အသုံးပြုသူ' => 'User',
+	'အစာအစီအစဉ်' => 'Meal Plan',
+	'အကြံပြုခဲ့သည့်နေ့စွဲ' => 'Recommended Date',
+	'မည်သည့်ရလဒ်များလည်းမရှိပါ' => 'No results found',
+	'အသုံးပြုသူ တိုးတက်မှု' => 'User Progress',
+	'ရက်စွဲ' => 'Date',
+	'ကိုယ်အလေးချိန်' => 'Weight',
+	'မှတ်စု' => 'Notes',
+	'ဖန်တီးသည့်နေ့' => 'Created At',
+	'အသုံးပြုသူ စစ်တမ်းများ' => 'User Surveys',
+	'စစ်တမ်း အသစ်ထည့်ရန်' => 'Add New Survey',
+	'ကိုယ်အလေးချိန် (ကီလိုဂရမ်)' => 'Weight (kg)',
+	'ကိုယ်ရေပမာဏ (စင်တီမီတာ)' => 'Height (cm)',
 	// User list translations
 	'အသုံးပြုသူစာရင်း' => 'User List',
 	'အသုံးပြုသူအချက်အလက်များ အောင်မြင်စွာ ပြင်ဆင်ပြီးပါပြီ။' => 'User information updated successfully.',
 	// Pagination translations
 	'နောက်သို့' => 'Previous',
 	'ရှေ့သို့' => 'Next',
+	'ပါဝင်အစားအစာ' => 'Included Food',
+	'ဖန်တီးသည့်ရက်စွဲ' => 'Created Date',
+	'အသစ်ထည့်ရန်' => 'Add New',
+	'ပြန်သွားမည်' => 'Back',
+	'အစားအစာပြင်ဆင်ခြင်း' => 'Edit Food',
+	'အစားအစာအစီအစဉ်ပြင်ဆင်ခြင်း' => 'Edit Meal Plan',
 ];
 
 $__EN_TO_MY = array_flip($__MY_TO_EN);

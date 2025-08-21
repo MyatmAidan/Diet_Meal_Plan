@@ -1,6 +1,7 @@
 <?php
 require_once('../require/check_auth.php');
 check_auth(1);
+require_once('../require/i18n.php');
 ob_start();
 require_once('../layout/header.php');
 require_once('../require/db.php');
@@ -44,17 +45,17 @@ if (isset($_POST['submit'])) {
     // Validation
     if (empty($name)) {
         $error = true;
-        $name_err = "အမည်ထည့်သွင်းပါ";
+        $name_err = __("အမည်ထည့်သွင်းပါ");
     }
 
     if (empty($meal_type)) {
         $error = true;
-        $meal_type_err = "အစားအစာအမျိုးအစားရွေးချယ်ပါ";
+        $meal_type_err = __("အစားအစာအမျိုးအစားရွေးချယ်ပါ");
     }
 
     if (empty($description)) {
         $error = true;
-        $description_err = "ပါဝင်ပစ္စည်းများထည့်သွင်းပါ";
+        $description_err = __("ပါဝင်ပစ္စည်းများထည့်သွင်းပါ");
     }
 
     if (!$error) {
@@ -66,7 +67,7 @@ if (isset($_POST['submit'])) {
             exit();
         } else {
             $error = true;
-            $success_msg = '<div class="alert alert-danger mb-3">အမှားရှိနေပါသည်။ ထပ်မံကြိုးစားကြည့်ပါ။</div>';
+            $success_msg = '<div class="alert alert-danger mb-3">' . __("အမှားရှိနေပါသည်။ ထပ်မံကြိုးစားကြည့်ပါ။") . '</div>';
         }
     }
 }
@@ -78,9 +79,9 @@ ob_end_flush();
         <div class="col-md-6 col-lg-5">
             <div class="glass-panel p-4">
                 <div class="d-flex justify-content-between align-items-center mb-3">
-                    <h3 class="fw-bold mb-0">အစားအစာပြင်ဆင်ခြင်း</h3>
+                    <h3 class="fw-bold mb-0"><?= __('အစားအစာပြင်ဆင်ခြင်း') ?></h3>
                     <a href="meal_list.php" class="btn btn-secondary btn-sm">
-                        <i class="fas fa-arrow-left"></i> ပြန်သွားမည်
+                        <i class="fas fa-arrow-left"></i> <?= __('ပြန်သွားမည်') ?>
                     </a>
                 </div>
 
@@ -88,7 +89,7 @@ ob_end_flush();
 
                 <form method="post" autocomplete="off">
                     <div class="mb-3">
-                        <label for="name" class="form-label">အမည်</label>
+                        <label for="name" class="form-label"><?= __('အမည်') ?></label>
                         <input type="text" class="form-control glass-input <?= !empty($name_err) ? 'is-invalid' : '' ?>"
                             id="name" name="name" value="<?= htmlspecialchars($name) ?>" required>
                         <?php if (!empty($name_err)): ?>
@@ -97,23 +98,23 @@ ob_end_flush();
                     </div>
 
                     <div class="mb-3">
-                        <label for="meal_type" class="form-label">အစားအစာအမျိုးအစား</label>
+                        <label for="meal_type" class="form-label"><?= __('အစားအစာအမျိုးအစား') ?></label>
                         <div class="meal-type-selector">
                             <div class="meal-type-option <?= $meal_type == 'breakfast' ? 'active' : '' ?>" data-value="breakfast">
                                 <i class="fas fa-sun"></i>
-                                <span>နံနက်စာ</span>
+                                <span><?= __('နံနက်စာ') ?></span>
                             </div>
                             <div class="meal-type-option <?= $meal_type == 'lunch' ? 'active' : '' ?>" data-value="lunch">
                                 <i class="fas fa-cloud-sun"></i>
-                                <span>နေ့လည်စာ</span>
+                                <span><?= __('နေ့လည်စာ') ?></span>
                             </div>
                             <div class="meal-type-option <?= $meal_type == 'dinner' ? 'active' : '' ?>" data-value="dinner">
                                 <i class="fas fa-moon"></i>
-                                <span>ညစာ</span>
+                                <span><?= __('ညစာ') ?></span>
                             </div>
                             <div class="meal-type-option <?= $meal_type == 'snack' ? 'active' : '' ?>" data-value="snack">
                                 <i class="fas fa-cookie-bite"></i>
-                                <span>Snack</span>
+                                <span><?= __('Snack') ?></span>
                             </div>
                         </div>
                         <input type="hidden" name="meal_type" id="meal_type" value="<?= $meal_type ?>" required>
@@ -123,7 +124,7 @@ ob_end_flush();
                     </div>
 
                     <div class="mb-3">
-                        <label for="description" class="form-label">ပါဝင်ပစ္စည်းများ</label>
+                        <label for="description" class="form-label"><?= __('ပါဝင်ပစ္စည်းများ') ?></label>
                         <textarea class="form-control glass-input <?= !empty($description_err) ? 'is-invalid' : '' ?>"
                             id="description" name="description" rows="3" required><?= htmlspecialchars($description) ?></textarea>
                         <?php if (!empty($description_err)): ?>
@@ -132,9 +133,9 @@ ob_end_flush();
                     </div>
 
                     <div class="d-flex justify-content-between">
-                        <a href="meal_list.php" class="btn btn-secondary">ပယ်ဖျက်မည်</a>
+                        <a href="meal_list.php" class="btn btn-secondary"><?= __('ပယ်ဖျက်မည်') ?></a>
                         <button type="submit" name="submit" class="btn btn-primary fw-bold">
-                            <i class="bi bi-check-circle me-2"></i>ပြင်ဆင်မည်
+                            <i class="bi bi-check-circle me-2"></i><?= __('ပြင်ဆင်မည်') ?>
                         </button>
                     </div>
                 </form>

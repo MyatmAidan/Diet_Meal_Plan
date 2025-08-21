@@ -52,10 +52,10 @@ $progress_count = $progress_count_result->fetch_assoc()['count'];
                     <h3 class="fw-bold mb-0">အသုံးပြုသူအချက်အလက်</h3>
                     <div>
                         <a href="user_edit.php?id=<?= $user_id ?>" class="btn btn-primary btn-sm me-2">
-                            <i class="fas fa-edit"></i> ပြင်ဆင်မည်
+                            <i class="fas fa-edit"></i>
                         </a>
                         <a href="user_list.php" class="btn btn-secondary btn-sm">
-                            <i class="fas fa-arrow-left"></i> ပြန်သွားမည်
+                            <i class="fas fa-arrow-left"></i>
                         </a>
                     </div>
                 </div>
@@ -76,7 +76,7 @@ $progress_count = $progress_count_result->fetch_assoc()['count'];
                                 <h5 class="mb-1"><?= htmlspecialchars($user['name']) ?></h5>
                                 <p class="mb-2 text-muted"><?= htmlspecialchars($user['email']) ?></p>
                                 <span class="badge <?= $user['role'] == 1 ? 'bg-primary' : 'bg-success' ?>">
-                                    <?= $user['role'] == 1 ? 'အက်ဒမင်' : 'အသုံးပြုသူ' ?>
+                                    <?= $user['role'] == 1 ? __('အက်မင်') : __('အသုံးပြုသူ') ?>
                                 </span>
                             </div>
 
@@ -111,8 +111,8 @@ $progress_count = $progress_count_result->fetch_assoc()['count'];
                                         <strong>အီးမေးလ်:</strong> <?= htmlspecialchars($user['email']) ?>
                                     </div>
                                     <div class="detail-item">
-                                        <strong>အခန်းကဏ္ဍ:</strong>
-                                        <?= $user['role'] == 1 ? 'အက်ဒမင်' : 'အသုံးပြုသူ' ?>
+                                        <strong><?= __('အခန်းကဏ္ဍ') ?>:</strong>
+                                        <?= $user['role'] == 1 ? __('အက်မင်') : __('အသုံးပြုသူ') ?>
                                     </div>
                                 </div>
                                 <div class="col-md-6">

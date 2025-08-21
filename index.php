@@ -65,7 +65,7 @@ require_once './require/i18n.php';
         <div class="container">
             <div class="row align-items-center">
                 <div class="col-lg-6 text-center text-lg-start">
-                    <p class="text-uppercase text-warning fw-semibold mb-2" style="letter-spacing:2px;"><?= __('ဖြောင့်တောက်စွာစားပြီး ကျန်းမာရေးရှိပါစေ') ?></p>
+                    <p class="text-uppercase text-warning fw-semibold mb-2" style="letter-spacing:2px;"><?= __('ကျန်းမာစွာနေထိုင်ပြီး အစာမှန်မှန်စားပါ') ?></p>
                     <h1 class="display-5 fw-bold mb-3"><?= __('ကျွန်ုပ်တို့၏ အာဟာရအစီအစဉ် ဖြင့် သင့်စိတ်ကူးယဉ်ခန္ဓာကိုယ်ကို ပိုင်ဆိုင်လိုက်ပါ') ?></h1>
                     <p class="mb-4 text-secondary"><?= __('မိတ်ဆွေအတွက်သီးသန့်ချမှတ်ထားသောအစားအစာအစီအစဉ်များ၊ ကျွမ်းကျင်သူများ၏အကြံပြုချက်များနှင့် တကယ်အကျိုးရှိသောဖော်ပြချက်များ') ?></p>
                     <a href="#" class="btn btn-warning btn-lg rounded-pill px-5"><?= __('ယနေ့တင် စတင်လိုက်ပါ') ?></a>

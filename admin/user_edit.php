@@ -177,7 +177,7 @@ ob_end_flush();
                             </div>
                             <div class="role-option <?= $role == 1 ? 'active' : '' ?>" data-value="1">
                                 <i class="fas fa-user-shield"></i>
-                                <span>အက်ဒမင်</span>
+                                <span><?= __('အက်မင်') ?></span>
                             </div>
                         </div>
                         <input type="hidden" name="role" id="role" value="<?= $role ?>" required>
@@ -186,8 +186,8 @@ ob_end_flush();
                     <div class="d-flex justify-content-between">
                         <a href="user_list.php" class="btn btn-secondary">ပယ်ဖျက်မည်</a>
                         <button type="submit" name="submit" class="btn btn-primary fw-bold">
-                    <i class="bi bi-check-circle me-2"></i>ပြင်ဆင်မည်
-                </button>
+                            <i class="bi bi-check-circle me-2"></i>ပြင်ဆင်မည်
+                        </button>
                     </div>
                 </form>
             </div>

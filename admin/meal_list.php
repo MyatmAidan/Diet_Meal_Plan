@@ -84,7 +84,7 @@ if ($search_active) {
                                 <tr>
                                     <td><?= $i++ ?></td>
                                     <td><?= htmlspecialchars($row['name']) ?></td>
-                                    <td><?= htmlspecialchars($row['meal_type']) ?></td>
+                                    <td><?= __(ucfirst($row['meal_type'])) ?></td>
                                     <td><?= htmlspecialchars($row['description']) ?></td>
                                     <td>
                                         <a href="meal_edit.php?id=<?= $row['id'] ?>" class="btn btn-sm btn-primary me-2" title="<?= __('ပြင်ဆင်မည်') ?>">

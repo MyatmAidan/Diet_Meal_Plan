@@ -1,6 +1,7 @@
 <?php
 require_once('../require/check_auth.php');
 check_auth(1);
+require_once('../require/i18n.php');
 require_once('../layout/header.php');
 require_once('../require/db.php');
 require_once('../require/common.php');
@@ -61,32 +62,32 @@ $result = $stmt->get_result();
     <div class="row">
         <div class="col-12">
             <div class="mb-3 d-flex justify-content-between align-items-center">
-                <h3 class="fw-bold mb-0">အစားအစာများ</h3>
+                <h3 class="fw-bold mb-0"><?= __('အစားအစာများ') ?></h3>
                 <button class="btn btn-success fw-bold px-4" onclick="window.location.href='meal_food_create.php'">
-                    <i class="bi bi-plus-lg me-2"></i> အသစ်ထည့်ရန်
+                    <i class="bi bi-plus-lg me-2"></i> <?= __('အသစ်ထည့်ရန်') ?>
                 </button>
             </div>
             <?php if ($search): ?>
                 <div class="alert alert-info">
-                    "<?= htmlspecialchars($search) ?>" အတွက် ရလဒ် <?= $total_rows ?> ခု တွေ့ရှိခဲ့သည်။
+                    "<?= htmlspecialchars($search) ?>" <?= __('အတွက် ရလဒ်') ?> <?= $total_rows ?> <?= __('ခု တွေ့ရှိခဲ့သည်။') ?>
                 </div>
             <?php endif; ?>
             <div class="glass-panel p-0">
                 <table class="table table-hover table-bordered align-middle mb-0 glass-table">
                     <thead class="table-light">
                         <tr>
-                            <th>စဉ်</th>
-                            <th>အစားအစာအမည်</th>
-                            <th>ပါဝင်အစားအစာ</th>
-                            <th>ပမာဏ</th>
-                            <th>လုပ်ဆောင်မှု</th>
+                            <th><?= __('စဉ်') ?></th>
+                            <th><?= __('အစားအစာအမည်') ?></th>
+                            <th><?= __('ပါဝင်အစားအစာ') ?></th>
+                            <th><?= __('ပမာဏ') ?></th>
+                            <th><?= __('လုပ်ဆောင်မှု') ?></th>
                         </tr>
                     </thead>
                     <tbody>
                         <?php $i = $offset + 1; ?>
                         <?php if ($result->num_rows === 0): ?>
                             <tr>
-                                <td colspan="9" class="text-center">မည်သည့်ရလဒ်များမရှိပါ</td>
+                                <td colspan="9" class="text-center"><?= __('မည်သည့်ရလဒ်များမရှိပါ') ?></td>
                             </tr>
                         <?php else: ?>
                             <?php while ($row = $result->fetch_assoc()): ?>
@@ -96,7 +97,7 @@ $result = $stmt->get_result();
                                     <td><?= htmlspecialchars($row['food_name']) ?></td>
                                     <td><?= htmlspecialchars($row['quantity']) ?></td>
                                     <td>
-                                        <button class="btn btn-sm btn-danger btn-delete-meal-food" onclick="deleteFun(<?= $row['id'] ?>, 'mealFoodId')" data-id="<?= $row['id'] ?>" title="ဖျက်မည်">
+                                        <button class="btn btn-sm btn-danger btn-delete-meal-food" onclick="deleteFun(<?= $row['id'] ?>, 'mealFoodId')" data-id="<?= $row['id'] ?>" title="<?= __('ဖျက်မည်') ?>">
                                             <i class="bi bi-trash"></i>
                                         </button>
                                     </td>

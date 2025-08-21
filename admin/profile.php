@@ -1,6 +1,7 @@
 <?php
 require_once('../require/check_auth.php');
 check_auth(1);
+require_once('../require/i18n.php');
 ob_start();
 require_once('../layout/header.php');
 require_once('../require/db.php');
@@ -37,15 +38,15 @@ if (isset($_POST['submit'])) {
     // Validation
     if (empty($name)) {
         $error = true;
-        $name_err = "အမည်ထည့်သွင်းပါ";
+        $name_err = __("အမည်ထည့်သွင်းပါ");
     }
 
     if (empty($email)) {
         $error = true;
-        $email_err = "အီးမေးလ်ထည့်သွင်းပါ";
+        $email_err = __("အီးမေးလ်ထည့်သွင်းပါ");
     } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
         $error = true;
-        $email_err = "မှန်ကန်သောအီးမေးလ်လိပ်စာထည့်သွင်းပါ";
+        $email_err = __("မှန်ကန်သောအီးမေးလ်လိပ်စာထည့်သွင်းပါ");
     }
 
     // Check if email already exists for other users
@@ -54,17 +55,17 @@ if (isset($_POST['submit'])) {
 
     if ($email_check->num_rows > 0) {
         $error = true;
-        $email_err = "ဤအီးမေးလ်လိပ်စာကို အသုံးပြုပြီးဖြစ်သည်";
+        $email_err = __("ဤအီးမေးလ်လိပ်စာကို အသုံးပြုပြီးဖြစ်သည်");
     }
 
     // Password validation (only if password is provided)
     if (!empty($password)) {
         if (strlen($password) < 6) {
             $error = true;
-            $password_err = "စကားဝှက်သည် အနည်းဆုံး ၆ လုံးရှိရမည်";
+            $password_err = __("စကားဝှက်သည် အနည်းဆုံး ၆ လုံးရှိရမည်");
         } elseif ($password !== $confirm_password) {
             $error = true;
-            $password_err = "စကားဝှက်များ မတူညီပါ";
+            $password_err = __("စကားဝှက်များ မတူညီပါ");
         }
     }
 
@@ -77,10 +78,10 @@ if (isset($_POST['submit'])) {
 
         if (!in_array($_FILES['image']['type'], $allowed_types)) {
             $error = true;
-            $image_err = "ဓာတ်ပုံအမျိုးအစားမှန်ကန်ပါသည်။ (JPG, PNG, GIF သာလက်ခံသည်)";
+            $image_err = __("ဓာတ်ပုံအမျိုးအစားမှန်ကန်ပါသည်။ (JPG, PNG, GIF သာလက်ခံသည်)");
         } elseif ($_FILES['image']['size'] > $max_size) {
             $error = true;
-            $image_err = "ဓာတ်ပုံအရွယ်အစားသည် 5MB ထက်မကြီးရပါ။";
+            $image_err = __("ဓာတ်ပုံအရွယ်အစားသည် 5MB ထက်မကြီးရပါ။");
         } else {
             // Create uploads directory if it doesn't exist
             $upload_dir = "../images/";
@@ -100,7 +101,7 @@ if (isset($_POST['submit'])) {
                 }
             } else {
                 $error = true;
-                $image_err = "ဓာတ်ပုံတင်ရာတွင်အမှားရှိနေပါသည်။";
+                $image_err = __("ဓာတ်ပုံတင်ရာတွင်အမှားရှိနေပါသည်။");
             }
         }
     }
@@ -119,10 +120,10 @@ if (isset($_POST['submit'])) {
             $_SESSION['user_name'] = $name;
             $_SESSION['user_email'] = $email;
 
-            $success_msg = '<div class="alert alert-success mb-3">ပရိုဖိုင် အောင်မြင်စွာ ပြင်ဆင်ပြီးပါပြီ။</div>';
+            $success_msg = '<div class="alert alert-success mb-3">' . __("ပရိုဖိုင် အောင်မြင်စွာ ပြင်ဆင်ပြီးပါပြီ။") . '</div>';
         } else {
             $error = true;
-            $success_msg = '<div class="alert alert-danger mb-3">အမှားရှိနေပါသည်။ ထပ်မံကြိုးစားကြည့်ပါ။</div>';
+            $success_msg = '<div class="alert alert-danger mb-3">' . __("အမှားရှိနေပါသည်။ ထပ်မံကြိုးစားကြည့်ပါ။") . '</div>';
         }
     }
 }
@@ -135,9 +136,9 @@ ob_end_flush();
         <div class="col-md-8 col-lg-6">
             <div class="glass-panel p-4">
                 <div class="d-flex justify-content-between align-items-center mb-4">
-                    <h3 class="fw-bold mb-0">ပရိုဖိုင်</h3>
+                    <h3 class="fw-bold mb-0"><?= __('ပရိုဖိုင်') ?></h3>
                     <a href="index.php" class="btn btn-secondary btn-sm">
-                        <i class="fas fa-arrow-left"></i> ပြန်သွားမည်
+                        <i class="fas fa-arrow-left"></i> <?= __('ပြန်သွားမည်') ?>
                     </a>
                 </div>
 
@@ -152,14 +153,14 @@ ob_end_flush();
                         <div>
                             <h5 class="mb-1"><?= htmlspecialchars($user['name']) ?></h5>
                             <p class="mb-0 text-muted"><?= htmlspecialchars($user['email']) ?></p>
-                            <span class="badge bg-primary">အက်ဒမင်</span>
+                            <span class="badge bg-primary"><?= __('အက်မင်') ?></span>
                         </div>
                     </div>
                 </div>
 
                 <form method="post" enctype="multipart/form-data" autocomplete="off">
                     <div class="mb-3">
-                        <label for="name" class="form-label">အမည်</label>
+                        <label for="name" class="form-label"><?= __('အမည်') ?></label>
                         <input type="text" class="form-control glass-input <?= !empty($name_err) ? 'is-invalid' : '' ?>"
                             id="name" name="name" value="<?= htmlspecialchars($name) ?>" required>
                         <?php if (!empty($name_err)): ?>
@@ -168,7 +169,7 @@ ob_end_flush();
                     </div>
 
                     <div class="mb-3">
-                        <label for="email" class="form-label">အီးမေးလ်</label>
+                        <label for="email" class="form-label"><?= __('အီးမေးလ်') ?></label>
                         <input type="email" class="form-control glass-input <?= !empty($email_err) ? 'is-invalid' : '' ?>"
                             id="email" name="email" value="<?= htmlspecialchars($email) ?>" required>
                         <?php if (!empty($email_err)): ?>
@@ -177,14 +178,14 @@ ob_end_flush();
                     </div>
 
                     <div class="mb-3">
-                        <label for="password" class="form-label">စကားဝှက် (ပြောင်းလဲရန် ထည့်သွင်းပါ)</label>
+                        <label for="password" class="form-label"><?= __('စကားဝှက် (ပြောင်းလဲရန် ထည့်သွင်းပါ)') ?></label>
                         <input type="password" class="form-control glass-input" id="password" name="password"
                             placeholder="စကားဝှက်ပြောင်းလဲရန် ထည့်သွင်းပါ">
-                        <small class="form-text text-muted">စကားဝှက်မပြောင်းလဲလိုပါက ဗလာထားပါ</small>
+                        <small class="form-text text-muted"><?= __('စကားဝှက်မပြောင်းလဲလိုပါက ဗလာထားပါ') ?></small>
                     </div>
 
                     <div class="mb-3">
-                        <label for="confirm_password" class="form-label">စကားဝှက်အတည်ပြုခြင်း</label>
+                        <label for="confirm_password" class="form-label"><?= __('စကားဝှက်အတည်ပြုခြင်း') ?></label>
                         <input type="password" class="form-control glass-input <?= !empty($password_err) ? 'is-invalid' : '' ?>"
                             id="confirm_password" name="confirm_password"
                             placeholder="စကားဝှက်အတည်ပြုခြင်း">
@@ -194,27 +195,27 @@ ob_end_flush();
                     </div>
 
                     <div class="mb-3">
-                        <label for="image" class="form-label">ဓာတ်ပုံ</label>
+                        <label for="image" class="form-label"><?= __('ဓာတ်ပုံ') ?></label>
                         <?php if ($current_image): ?>
                             <div class="mb-2">
                                 <img src="../uploads/users/<?= htmlspecialchars($current_image) ?>"
                                     alt="Current Profile" class="profile-image-preview">
-                                <small class="d-block text-muted">လက်ရှိဓာတ်ပုံ</small>
+                                <small class="d-block text-muted"><?= __('လက်ရှိဓာတ်ပုံ') ?></small>
                             </div>
                         <?php endif; ?>
                         <input type="file" class="form-control glass-input <?= !empty($image_err) ? 'is-invalid' : '' ?>"
                             id="image" name="image" accept="image/*">
-                        <small class="form-text text-muted">JPG, PNG, GIF ဖိုင်များသာလက်ခံသည် (အများဆုံး 5MB)</small>
+                        <small class="form-text text-muted"><?= __('JPG, PNG, GIF ဖိုင်များသာလက်ခံသည် (အများဆုံး 5MB)') ?></small>
                         <?php if (!empty($image_err)): ?>
                             <div class="invalid-feedback"><?= htmlspecialchars($image_err) ?></div>
                         <?php endif; ?>
                     </div>
 
                     <div class="d-flex justify-content-between">
-                        <a href="index.php" class="btn btn-secondary">ပယ်ဖျက်မည်</a>
+                        <a href="index.php" class="btn btn-secondary"><?= __('ပယ်ဖျက်မည်') ?></a>
                         <button type="submit" name="submit" class="btn btn-primary fw-bold">
-                    <i class="bi bi-check-circle me-2"></i>ပြင်ဆင်မည်
-                </button>
+                            <i class="bi bi-check-circle me-2"></i><?= __('ပြင်ဆင်မည်') ?>
+                        </button>
                     </div>
                 </form>
             </div>

@@ -33,7 +33,7 @@ $mysqli->query('SET FOREIGN_KEY_CHECKS=1');
 // Seed users
 seed_query($mysqli, "
     INSERT INTO users (name, email, password, role) VALUES
-    ('အက်ဒမင်', 'admin@gmail.com', '" . password_hash('password1', PASSWORD_DEFAULT) . "', 1),
+    ('အက်မင်', 'admin@gmail.com', '" . password_hash('password1', PASSWORD_DEFAULT) . "', 1),
     ('John Doe', 'john@gmail.com', '" . password_hash('password1', PASSWORD_DEFAULT) . "', 0),
     ('Jane Smith', 'jane@gmail.com', '" . password_hash('password1', PASSWORD_DEFAULT) . "', 0),
     ('Mike Tyson', 'mike@gmail.com', '" . password_hash('password1', PASSWORD_DEFAULT) . "', 0),
