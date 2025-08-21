@@ -180,7 +180,9 @@ ob_end_flush();
                     
                     <div class="d-flex justify-content-between">
                         <a href="food_list.php" class="btn btn-secondary">ပယ်ဖျက်မည်</a>
-                        <button type="submit" name="submit" class="btn btn-primary fw-bold">ပြင်ဆင်မည်</button>
+                        <button type="submit" name="submit" class="btn btn-primary fw-bold">
+                    <i class="bi bi-check-circle me-2"></i>ပြင်ဆင်မည်
+                </button>
                     </div>
                 </form>
             </div>

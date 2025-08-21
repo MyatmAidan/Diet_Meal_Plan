@@ -3,6 +3,7 @@ require_once('../require/check_auth.php');
 check_auth(1);
 require_once('../layout/header.php');
 require_once('../require/db.php');
+require_once('../require/common.php');
 
 $limit = 5;
 $page = isset($_GET['page']) ? max(1, intval($_GET['page'])) : 1;
@@ -104,27 +105,7 @@ $result = $stmt->get_result();
                 </table>
 
                 <?php if ($total_rows > 0): ?>
-                    <nav aria-label="စာမျက်နှာပြောင်းခြင်း" class="mt-4 d-flex justify-content-end align-items-center">
-                        <ul class="pagination justify-content-center" style="background: rgba(255, 255, 255, 0.08); backdrop-filter: blur(12px); border-radius: 16px; border: 1px solid rgba(255, 255, 255, 0.25); box-shadow: 0 6px 24px rgba(0, 0, 0, 0.5); padding: 12px 20px;">
-                            <?php if ($page > 1): ?>
-                                <li class="page-item">
-                                    <a class="page-link" href="?page=<?= $page - 1 ?>&search=<?= urlencode($_GET['search'] ?? '') ?>" style="background-color: rgba(255, 255, 255, 0.15); color: #0e0e0e; border: none; padding: 6px 14px; margin: 0 6px; border-radius: 10px; font-weight: 600; box-shadow: 0 0 6px rgba(255, 255, 255, 0.25); transition: 0.3s ease-in-out;">&laquo; နောက်သို့</a>
-                                </li>
-                            <?php endif; ?>
-
-                            <?php for ($p = 1; $p <= $total_pages; $p++): ?>
-                                <li class="page-item <?= ($p == $page) ? 'active' : '' ?>">
-                                    <a class="page-link" href="?page=<?= $p ?>&search=<?= urlencode($_GET['search'] ?? '') ?>" style="background-color: <?= ($p == $page) ? 'rgba(80, 77, 77, 0.49)' : 'rgba(255, 255, 255, 0.1)' ?>; color: #000; font-weight: 600; padding: 6px 14px; margin: 0 6px; border-radius: 10px; border: none; box-shadow: <?= ($p == $page) ? '0 0 10px rgba(255, 255, 255, 0.5)' : '0 0 5px rgba(255, 255, 255, 0.1)' ?>; transition: 0.3s ease-in-out;"><?= $p ?></a>
-                                </li>
-                            <?php endfor; ?>
-
-                            <?php if ($page < $total_pages): ?>
-                                <li class="page-item">
-                                    <a class="page-link" href="?page=<?= $page + 1 ?>&search=<?= urlencode($_GET['search'] ?? '') ?>" style="background-color: rgba(255, 255, 255, 0.15); color: #0e0e0e; border: none; padding: 6px 14px; margin: 0 6px; border-radius: 10px; font-weight: 600; box-shadow: 0 0 6px rgba(255, 255, 255, 0.25); transition: 0.3s ease-in-out;">ရှေ့သို့ &raquo;</a>
-                                </li>
-                            <?php endif; ?>
-                        </ul>
-                    </nav>
+                    <?= generate_pagination($page, $total_pages, $_GET['search'] ?? '') ?>
                 <?php endif; ?>
             </div>
         </div>

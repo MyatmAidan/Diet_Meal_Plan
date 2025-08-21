@@ -4,6 +4,7 @@
 <script src="../assets/js/jquery-3.7.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="../assets/js/theme.js"></script>
 <script>
     $(function() {
         $('#toggleSidebar').on('click', function() {
@@ -13,13 +14,13 @@
 
     function deleteFun(id, type, recommendation_id = null) {
         Swal.fire({
-            title: 'Are you sure?',
-            text: "You won't be able to revert this!",
+            title: '<?= __("Are you sure?") ?>',
+            text: "<?= __("You won't be able to revert this!") ?>",
             icon: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
             cancelButtonColor: '#d33',
-            confirmButtonText: 'Yes, delete it!'
+            confirmButtonText: '<?= __("Yes, delete it!") ?>'
         }).then((result) => {
             if (result.isConfirmed) {
                 $.ajax({
@@ -34,8 +35,8 @@
                     success: function(response) {
                         console.log(response);
                         Swal.fire(
-                            'Deleted!',
-                            response.message || 'The item has been deleted.',
+                            '<?= __("Deleted!") ?>',
+                            response.message || '<?= __("The item has been deleted.") ?>',
                             'success'
                         ).then(() => {
                             location.reload();
@@ -46,7 +47,7 @@
                         console.error(status);
                         console.error(error);
                         Swal.fire(
-                            'Error!',
+                            '<?= __("Error!") ?>',
                             xhr.responseJSON.message,
                             'error'
                         );

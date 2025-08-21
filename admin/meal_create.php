@@ -1,6 +1,7 @@
 <?php
 require_once('../require/check_auth.php');
 check_auth(1);
+require_once('../require/i18n.php');
 ob_start();
 require_once('../layout/header.php');
 require_once('../require/db.php');
@@ -17,10 +18,10 @@ if (isset($_POST['submit'])) {
             header("Location: $admin_url" . "meal_list.php?msg=Create Successfully!");
             exit();
         } else {
-            $create_msg = '<div class=\"alert alert-danger mb-3\">Error: </div>';
+            $create_msg = '<div class="alert alert-danger mb-3">' . __("Error") . '</div>';
         }
     } else {
-        $create_msg = '<div class=\"alert alert-warning mb-3\">All fields are required.</div>';
+        $create_msg = '<div class="alert alert-warning mb-3">' . __("All fields are required.") . '</div>';
     }
 }
 ob_end_flush();
@@ -29,42 +30,44 @@ ob_end_flush();
     <div class="row justify-content-center">
         <div class="col-md-6 col-lg-5">
             <div class="glass-panel p-4">
-                <h3 class="fw-bold mb-3">အစားအစာအသစ်ဖန်တီးပါ</h3>
+                <h3 class="fw-bold mb-3"><?= __('အစားအစာအသစ်ဖန်တီးပါ') ?></h3>
                 <?php echo $create_msg; ?>
                 <form method="post" autocomplete="off">
                     <div class="mb-3">
-                        <label for="name" class="form-label">အမည်</label>
+                        <label for="name" class="form-label"><?= __('အမည်') ?></label>
                         <input type="text" class="form-control glass-input" id="name" name="name" required>
                     </div>
                     <div class="mb-3">
-                        <label for="meal_type" class="form-label">အစားအစာအမျိုးအစား</label>
+                        <label for="meal_type" class="form-label"><?= __('အစားအစာအမျိုးအစား') ?></label>
                         <div class="meal-type-selector">
                             <div class="meal-type-option" data-value="breakfast">
                                 <i class="fas fa-sun"></i>
-                                <span>နံနက်စာ</span>
+                                <span><?= __('နံနက်စာ') ?></span>
                             </div>
                             <div class="meal-type-option" data-value="lunch">
                                 <i class="fas fa-cloud-sun"></i>
-                                <span>နေ့လည်စာ</span>
+                                <span><?= __('နေ့လည်စာ') ?></span>
                             </div>
                             <div class="meal-type-option" data-value="dinner">
                                 <i class="fas fa-moon"></i>
-                                <span>ညစာ</span>
+                                <span><?= __('ညစာ') ?></span>
                             </div>
                             <div class="meal-type-option" data-value="snack">
                                 <i class="fas fa-cookie-bite"></i>
-                                <span>Snack</span>
+                                <span><?= __('Snack') ?></span>
                             </div>
                         </div>
                         <input type="hidden" name="meal_type" id="meal_type" required>
                     </div>
                     <div class="mb-3">
-                        <label for="description" class="form-label">ပါဝင်ပစ္စည်းများ</label>
+                        <label for="description" class="form-label"><?= __('ပါဝင်ပစ္စည်းများ') ?></label>
                         <textarea class="form-control glass-input" id="description" name="description" rows="3" required></textarea>
                     </div>
                     <div class="d-flex justify-content-between">
-                        <a href="meal_list.php" class="btn btn-secondary">ပယ်ဖျက်ရန်</a>
-                        <button type="submit" name="submit" class="btn btn-success fw-bold">အသစ်ထည့်ရန်</button>
+                        <a href="meal_list.php" class="btn btn-secondary"><?= __('ပယ်ဖျက်ရန်') ?></a>
+                        <button type="submit" name="submit" class="btn btn-success fw-bold">
+                            <i class="bi bi-plus-circle me-2"></i>အသစ်ထည့်ရန်
+                        </button>
                     </div>
                 </form>
             </div>
@@ -143,22 +146,22 @@ ob_end_flush();
 </style>
 
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-    const mealTypeOptions = document.querySelectorAll('.meal-type-option');
-    const mealTypeInput = document.getElementById('meal_type');
+    document.addEventListener('DOMContentLoaded', function() {
+        const mealTypeOptions = document.querySelectorAll('.meal-type-option');
+        const mealTypeInput = document.getElementById('meal_type');
 
-    mealTypeOptions.forEach(option => {
-        option.addEventListener('click', function() {
-            // Remove active class from all options
-            mealTypeOptions.forEach(opt => opt.classList.remove('active'));
-            
-            // Add active class to clicked option
-            this.classList.add('active');
-            
-            // Update hidden input value
-            mealTypeInput.value = this.getAttribute('data-value');
+        mealTypeOptions.forEach(option => {
+            option.addEventListener('click', function() {
+                // Remove active class from all options
+                mealTypeOptions.forEach(opt => opt.classList.remove('active'));
+
+                // Add active class to clicked option
+                this.classList.add('active');
+
+                // Update hidden input value
+                mealTypeInput.value = this.getAttribute('data-value');
+            });
         });
     });
-});
 </script>
 <?php require_once('../layout/footer.php'); ?>

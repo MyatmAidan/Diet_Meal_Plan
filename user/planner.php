@@ -71,7 +71,7 @@ if ($rec_result->num_rows > 0) {
                                 <thead class="table-light">
                                     <tr>
                                         <th>အစားအစာ</th>
-                                    
+
                                         <th>ယူနစ်</th>
                                         <th>ကယ်လိုရီ</th>
                                         <th>ပရိုတိန်း (ဂရမ်)</th>
@@ -93,8 +93,8 @@ if ($rec_result->num_rows > 0) {
                                     ?>
                                         <tr>
                                             <td><?= htmlspecialchars($food['name']) ?></td>
-                                            <td><?= htmlspecialchars($food['quantity']) ?></td>
                                             <td><?= htmlspecialchars($food['unit']) ?></td>
+                                            <td><?= htmlspecialchars($food['quantity']) ?></td>
                                             <td><?= $food['calories'] * $food['quantity'] ?></td>
                                             <td><?= $food['protein'] * $food['quantity'] ?></td>
                                             <td><?= $food['carbs'] * $food['quantity'] ?></td>
@@ -131,3 +131,7 @@ if ($rec_result->num_rows > 0) {
 </style>
 
 <?php require_once('../layout/footer.php'); ?>
+
+<script>
+
+</script>

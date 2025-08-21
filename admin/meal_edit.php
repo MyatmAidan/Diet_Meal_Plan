@@ -83,19 +83,19 @@ ob_end_flush();
                         <i class="fas fa-arrow-left"></i> ပြန်သွားမည်
                     </a>
                 </div>
-                
+
                 <?= $success_msg ?>
-                
+
                 <form method="post" autocomplete="off">
                     <div class="mb-3">
                         <label for="name" class="form-label">အမည်</label>
-                        <input type="text" class="form-control glass-input <?= !empty($name_err) ? 'is-invalid' : '' ?>" 
-                               id="name" name="name" value="<?= htmlspecialchars($name) ?>" required>
+                        <input type="text" class="form-control glass-input <?= !empty($name_err) ? 'is-invalid' : '' ?>"
+                            id="name" name="name" value="<?= htmlspecialchars($name) ?>" required>
                         <?php if (!empty($name_err)): ?>
                             <div class="invalid-feedback"><?= htmlspecialchars($name_err) ?></div>
                         <?php endif; ?>
                     </div>
-                    
+
                     <div class="mb-3">
                         <label for="meal_type" class="form-label">အစားအစာအမျိုးအစား</label>
                         <div class="meal-type-selector">
@@ -121,19 +121,21 @@ ob_end_flush();
                             <div class="text-danger small mt-1"><?= htmlspecialchars($meal_type_err) ?></div>
                         <?php endif; ?>
                     </div>
-                    
+
                     <div class="mb-3">
                         <label for="description" class="form-label">ပါဝင်ပစ္စည်းများ</label>
-                        <textarea class="form-control glass-input <?= !empty($description_err) ? 'is-invalid' : '' ?>" 
-                                  id="description" name="description" rows="3" required><?= htmlspecialchars($description) ?></textarea>
+                        <textarea class="form-control glass-input <?= !empty($description_err) ? 'is-invalid' : '' ?>"
+                            id="description" name="description" rows="3" required><?= htmlspecialchars($description) ?></textarea>
                         <?php if (!empty($description_err)): ?>
                             <div class="invalid-feedback"><?= htmlspecialchars($description_err) ?></div>
                         <?php endif; ?>
                     </div>
-                    
+
                     <div class="d-flex justify-content-between">
                         <a href="meal_list.php" class="btn btn-secondary">ပယ်ဖျက်မည်</a>
-                        <button type="submit" name="submit" class="btn btn-primary fw-bold">ပြင်ဆင်မည်</button>
+                        <button type="submit" name="submit" class="btn btn-primary fw-bold">
+                            <i class="bi bi-check-circle me-2"></i>ပြင်ဆင်မည်
+                        </button>
                     </div>
                 </form>
             </div>
@@ -223,23 +225,23 @@ ob_end_flush();
 </style>
 
 <script>
-document.addEventListener('DOMContentLoaded', function() {
-    const mealTypeOptions = document.querySelectorAll('.meal-type-option');
-    const mealTypeInput = document.getElementById('meal_type');
+    document.addEventListener('DOMContentLoaded', function() {
+        const mealTypeOptions = document.querySelectorAll('.meal-type-option');
+        const mealTypeInput = document.getElementById('meal_type');
 
-    mealTypeOptions.forEach(option => {
-        option.addEventListener('click', function() {
-            // Remove active class from all options
-            mealTypeOptions.forEach(opt => opt.classList.remove('active'));
-            
-            // Add active class to clicked option
-            this.classList.add('active');
-            
-            // Update hidden input value
-            mealTypeInput.value = this.getAttribute('data-value');
+        mealTypeOptions.forEach(option => {
+            option.addEventListener('click', function() {
+                // Remove active class from all options
+                mealTypeOptions.forEach(opt => opt.classList.remove('active'));
+
+                // Add active class to clicked option
+                this.classList.add('active');
+
+                // Update hidden input value
+                mealTypeInput.value = this.getAttribute('data-value');
+            });
         });
     });
-});
 </script>
 
 <?php require_once('../layout/footer.php'); ?>

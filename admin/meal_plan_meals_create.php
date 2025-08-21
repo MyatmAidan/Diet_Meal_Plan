@@ -63,7 +63,9 @@ ob_end_flush();
                     </div>
                     <div class="d-flex justify-content-between">
                         <a href="meal_plan_meals_list.php" class="btn btn-secondary">Cancel</a>
-                        <button type="submit" name="submit" class="btn btn-success fw-bold">Add</button>
+                        <button type="submit" name="submit" class="btn btn-success fw-bold">
+                            <i class="bi bi-plus-circle me-2"></i>Add
+                        </button>
                     </div>
                 </form>
             </div>

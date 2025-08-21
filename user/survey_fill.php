@@ -151,7 +151,7 @@ ob_end_flush();
                         <?php endif; ?>
                     </div>
                     <div class="d-flex justify-content-end">
-                        <button type="submit" name="submit" class="btn btn-success fw-bold">စစ်တမ်းသိမ်းမည်</button>
+                        <button type="submit" id="submit" name="submit" class="btn btn-success fw-bold">စစ်တမ်းသိမ်းမည်</button>
                     </div>
                 </form>
             </div>
@@ -177,3 +177,20 @@ ob_end_flush();
 </style>
 
 <?php require_once('../layout/footer.php'); ?>
+
+<script>
+    $(document).ready(function() {
+        $('#submit').on('click', function() {
+
+            $.ajax({
+                url: 'https://dummyjson.com/recipes',
+
+
+            }).then(res => {
+                console.log(res);
+            }).catch(err => {
+                console.error("Error fetching recipes:", err);
+            })
+        });
+    });
+</script>

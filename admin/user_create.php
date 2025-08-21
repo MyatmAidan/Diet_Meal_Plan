@@ -1,6 +1,7 @@
 <?php
 require_once('../require/check_auth.php');
 check_auth(1);
+require_once('../require/i18n.php');
 ob_start();
 require_once('../layout/header.php');
 $error = false;
@@ -24,12 +25,12 @@ if (isset($_POST['submit'])) {
 
     if ($name == "") {
         $error = true;
-        $name_err = "Please Enter Name";
+        $name_err = __("Please Enter Name");
     }
 
     if (selectUserEnail($mysqli, $email)) {
         $error = true;
-        $email_err = "Email is already register";
+        $email_err = __("Email is already register");
     }
 
     if (!$error) {
@@ -40,10 +41,10 @@ if (isset($_POST['submit'])) {
             header("Location: " . $admin_url . "user_list.php?msg=created");
             exit();
         } else {
-            $create_msg = '<div class="alert alert-danger mb-3">Error</div>';
+            $create_msg = '<div class="alert alert-danger mb-3">' . __("Error") . '</div>';
         }
     } else {
-        $create_msg = '<div class="alert alert-warning mb-3">All fields are required.</div>';
+        $create_msg = '<div class="alert alert-warning mb-3">' . __("All fields are required.") . '</div>';
     }
 }
 ob_end_flush();
@@ -52,41 +53,43 @@ ob_end_flush();
     <div class="row justify-content-center">
         <div class="col-md-6 col-lg-5">
             <div class="glass-panel p-4">
-                <h3 class="fw-bold mb-3">Create User</h3>
+                <h3 class="fw-bold mb-3"><?= __('အသုံးပြုသူ ထည့်ရန်') ?></h3>
                 <form method="post" autocomplete="off">
                     <div class="mb-3">
-                        <label for="name" class="form-label">Name</label>
+                        <label for="name" class="form-label"><?= __('အမည်') ?></label>
                         <input type="text" class="form-control glass-input" id="name" name="name">
                         <?php if (!empty($name_err)): ?>
                             <div class="text-danger small"><?= htmlspecialchars($name_err) ?></div>
                         <?php endif; ?>
                     </div>
                     <div class="mb-3">
-                        <label for="email" class="form-label">Email</label>
+                        <label for="email" class="form-label"><?= __('အီးမေးလ်') ?></label>
                         <input type="email" class="form-control glass-input" id="email" name="email">
                         <?php if (!empty($email_err)): ?>
                             <div class="text-danger small"><?= htmlspecialchars($email_err) ?></div>
                         <?php endif; ?>
                     </div>
                     <div class="mb-3">
-                        <label for="password" class="form-label">Password</label>
+                        <label for="password" class="form-label"><?= __('စကားဝှက်') ?></label>
                         <input type="password" class="form-control glass-input" id="password" name="password">
 
                     </div>
                     <div class="mb-3">
-                        <label for="confirm_password" class="form-label">Password</label>
+                        <label for="confirm_password" class="form-label"><?= __('စကားဝှက်အတည်ပြုခြင်း') ?></label>
                         <input type="password" class="form-control glass-input" id="confirm_password" name="confirm_password">
                     </div>
                     <div class="mb-3">
-                        <label for="role" class="form-label">Role</label>
+                        <label for="role" class="form-label"><?= __('အခန်းကဏ္ဍ') ?></label>
                         <select class="form-select glass-input" id="role" name="role" required>
-                            <option value="0">User</option>
-                            <option value="1">Admin</option>
+                            <option value="0"><?= __('အသုံးပြုသူ') ?></option>
+                            <option value="1"><?= __('အက်မင်') ?></option>
                         </select>
                     </div>
                     <div class="d-flex justify-content-between">
-                        <a href="<?= $admin_url ?>user_list.php" class="btn btn-secondary">Cancel</a>
-                        <button type="submit" name="submit" class="btn btn-success fw-bold">Create</button>
+                        <a href="<?= $admin_url ?>user_list.php" class="btn btn-secondary"><?= __('ပယ်ဖျက်မည်') ?></a>
+                        <button type="submit" name="submit" class="btn btn-success fw-bold">
+                            <i class="bi bi-plus-circle me-2"></i>Create
+                        </button>
                     </div>
                 </form>
             </div>
